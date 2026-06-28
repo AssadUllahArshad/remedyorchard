@@ -16,21 +16,21 @@
     $counts = $counts ?? ['all' => 6, 'published' => 5, 'draft' => 1, 'scheduled' => 0];
 
     $articles = $articles ?? [
-        (object)['id'=>1,'title' => '12 Proven Home Remedies to Lower Blood Pressure', 'category' => (object)['name'=>'Heart Health'], 'author' => (object)['name'=>'Dr. Sarah Mitchell'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-22'), 'thumb_class' => 'img-ph-1', 'views' => 18420],
-        (object)['id'=>2,'title' => 'The Anti-Inflammatory Diet: A Complete 30-Day Plan', 'category' => (object)['name'=>'Nutrition'], 'author' => (object)['name'=>'Emma Rhodes, RD'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-20'), 'thumb_class' => 'img-ph-2', 'views' => 22110],
-        (object)['id'=>3,'title' => '7 Adaptogenic Herbs That Actually Work for Stress Relief', 'category' => (object)['name'=>'Home Remedies'], 'author' => (object)['name'=>'James Okafor, ND'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-18'), 'thumb_class' => 'img-ph-3', 'views' => 15870],
-        (object)['id'=>4,'title' => 'Sleep Hygiene for Adults Over 40', 'category' => (object)['name'=>'Sleep'], 'author' => (object)['name'=>'Dr. Priya Nair'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-15'), 'thumb_class' => 'img-ph-4', 'views' => 11320],
-        (object)['id'=>5,'title' => 'Zone 2 Cardio: The Most Underrated Health Investment', 'category' => (object)['name'=>'Fitness'], 'author' => (object)['name'=>'Carlos Mendez, CSCS'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-12'), 'thumb_class' => 'img-ph-5', 'views' => 9650],
-        (object)['id'=>6,'title' => 'Magnesium for Sleep: What the Research Says', 'category' => (object)['name'=>'Sleep'], 'author' => (object)['name'=>'Dr. Priya Nair'], 'status' => 'draft', 'published_at' => null, 'thumb_class' => 'img-ph-1', 'views' => 0],
+        (object)['id'=>1,'slug'=>'blood-pressure-remedies','title' => '12 Proven Home Remedies to Lower Blood Pressure', 'category' => (object)['name'=>'Heart Health'], 'author' => (object)['name'=>'Dr. Sarah Mitchell'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-22'), 'thumb_class' => 'img-ph-1', 'views' => 18420],
+        (object)['id'=>2,'slug'=>'anti-inflammatory-diet','title' => 'The Anti-Inflammatory Diet: A Complete 30-Day Plan', 'category' => (object)['name'=>'Nutrition'], 'author' => (object)['name'=>'Emma Rhodes, RD'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-20'), 'thumb_class' => 'img-ph-2', 'views' => 22110],
+        (object)['id'=>3,'slug'=>'adaptogenic-herbs','title' => '7 Adaptogenic Herbs That Actually Work for Stress Relief', 'category' => (object)['name'=>'Home Remedies'], 'author' => (object)['name'=>'James Okafor, ND'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-18'), 'thumb_class' => 'img-ph-3', 'views' => 15870],
+        (object)['id'=>4,'slug'=>'sleep-hygiene','title' => 'Sleep Hygiene for Adults Over 40', 'category' => (object)['name'=>'Sleep'], 'author' => (object)['name'=>'Dr. Priya Nair'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-15'), 'thumb_class' => 'img-ph-4', 'views' => 11320],
+        (object)['id'=>5,'slug'=>'zone-2-cardio','title' => 'Zone 2 Cardio: The Most Underrated Health Investment', 'category' => (object)['name'=>'Fitness'], 'author' => (object)['name'=>'Carlos Mendez, CSCS'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-12'), 'thumb_class' => 'img-ph-5', 'views' => 9650],
+        (object)['id'=>6,'slug'=>'magnesium-for-sleep','title' => 'Magnesium for Sleep: What the Research Says', 'category' => (object)['name'=>'Sleep'], 'author' => (object)['name'=>'Dr. Priya Nair'], 'status' => 'draft', 'published_at' => null, 'thumb_class' => 'img-ph-1', 'views' => 0],
     ];
 @endphp
 
 <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
   <div class="d-flex gap-2 flex-wrap">
-    <a href="#" class="admin-filter-pill active">All <span class="ms-1">{{ $counts['all'] }}</span></a>
-    <a href="#" class="admin-filter-pill">Published <span class="ms-1">{{ $counts['published'] }}</span></a>
-    <a href="#" class="admin-filter-pill">Drafts <span class="ms-1">{{ $counts['draft'] }}</span></a>
-    <a href="#" class="admin-filter-pill">Scheduled <span class="ms-1">{{ $counts['scheduled'] }}</span></a>
+    <a href="{{ route('admin.articles.index') }}" class="admin-filter-pill {{ !request('status') || request('status') === 'all' ? 'active' : '' }}">All <span class="ms-1">{{ $counts['all'] }}</span></a>
+    <a href="{{ route('admin.articles.index', ['status' => 'published']) }}" class="admin-filter-pill {{ request('status') === 'published' ? 'active' : '' }}">Published <span class="ms-1">{{ $counts['published'] }}</span></a>
+    <a href="{{ route('admin.articles.index', ['status' => 'draft']) }}" class="admin-filter-pill {{ request('status') === 'draft' ? 'active' : '' }}">Drafts <span class="ms-1">{{ $counts['draft'] }}</span></a>
+    <a href="{{ route('admin.articles.index', ['status' => 'scheduled']) }}" class="admin-filter-pill {{ request('status') === 'scheduled' ? 'active' : '' }}">Scheduled <span class="ms-1">{{ $counts['scheduled'] }}</span></a>
   </div>
   <a href="{{ route('admin.articles.create') }}" class="btn-admin-primary"><i class="bi bi-plus-lg"></i> New Article</a>
 </div>
@@ -87,8 +87,8 @@
         <td>
           <div class="d-flex gap-2">
             <a href="{{ route('articles.show', $article->slug) }}" target="_blank" class="row-action-btn" title="View live"><i class="bi bi-box-arrow-up-right"></i></a>
-            <a href="{{ route('admin.articles.edit', $article->id) }}" class="row-action-btn" title="Edit"><i class="bi bi-pencil"></i></a>
-            <form action="{{ route('admin.articles.destroy', $article->id) }}" method="POST" onsubmit="return confirm('Delete this article? This cannot be undone.');" style="display:inline;">
+            <a href="{{ route('admin.articles.edit', $article->slug) }}" class="row-action-btn" title="Edit"><i class="bi bi-pencil"></i></a>
+            <form action="{{ route('admin.articles.destroy', $article->slug) }}" method="POST" onsubmit="return confirm('Delete this article? This cannot be undone.');" style="display:inline;">
               @csrf @method('DELETE')
               <button type="submit" class="row-action-btn danger" title="Delete"><i class="bi bi-trash"></i></button>
             </form>

@@ -102,6 +102,9 @@
       @if(session('status'))
         <div class="admin-alert admin-alert-success mb-4">{{ session('status') }}</div>
       @endif
+      @if(session('error'))
+        <div class="admin-alert admin-alert-danger mb-4">{{ session('error') }}</div>
+      @endif
       @if($errors->any())
         <div class="admin-alert admin-alert-danger mb-4">
           <ul class="mb-0">

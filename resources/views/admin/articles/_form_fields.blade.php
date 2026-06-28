@@ -32,7 +32,7 @@
     ];
 @endphp
 
-<form method="POST" action="{{ $isEdit ? route('admin.articles.update', $article->id) : route('admin.articles.store') }}" enctype="multipart/form-data">
+<form method="POST" action="{{ $isEdit ? route('admin.articles.update', $article->slug) : route('admin.articles.store') }}" enctype="multipart/form-data">
   @csrf
   @if($isEdit) @method('PUT') @endif
 
@@ -61,12 +61,18 @@
 
       <div class="admin-form-section">
         <h3>Featured Image</h3>
-        <div class="image-upload-zone">
-          <i class="bi bi-cloud-arrow-up"></i>
-          <p class="mb-1"><span class="upload-link">Click to upload</span> or drag and drop</p>
-          <p class="admin-form-hint mb-0">Recommended size 1600×900px. JPG, PNG, or WebP, up to 5MB.</p>
-          <input type="file" name="thumbnail" class="d-none">
+        <div class="image-upload-zone" id="uploadZone" onclick="document.getElementById('thumbnailInput').click()" style="cursor:pointer;">
+          <i class="bi bi-cloud-arrow-up" id="uploadIcon"></i>
+          <p class="mb-1" id="uploadLabel"><span class="upload-link">Click to upload</span> or drag and drop</p>
+          <p class="admin-form-hint mb-0">Recommended 1600×900px · JPG, PNG, or WebP · max 5MB</p>
+          <input type="file" name="thumbnail" id="thumbnailInput" accept="image/*" class="d-none">
         </div>
+        @if($isEdit && !empty($article->thumbnail_url))
+        <div class="mt-2 d-flex align-items-center gap-2">
+          <img src="{{ $article->thumbnail_url }}" alt="Current thumbnail" style="height:48px;width:80px;object-fit:cover;border-radius:6px;">
+          <span class="admin-form-hint">Current thumbnail (upload a new one to replace)</span>
+        </div>
+        @endif
       </div>
 
       <div class="admin-form-section">
@@ -124,26 +130,28 @@
       </div>
 
       <div class="admin-form-section mb-0">
-        <h3>Tags</h3>
-        <div class="d-flex flex-wrap gap-2 mb-3">
-          <span class="tag-pill-input">evidence-based <i class="bi bi-x"></i></span>
-          <span class="tag-pill-input">heart-health <i class="bi bi-x"></i></span>
+        <h3>Options</h3>
+        <div class="form-check form-switch mb-2">
+          <input class="form-check-input" type="checkbox" name="featured" value="1"
+                 id="featuredCheck" @checked(old('featured', $article->featured ?? false))>
+          <label class="form-check-label" for="featuredCheck">Feature this article</label>
         </div>
-        <input type="text" class="admin-input" placeholder="Type a tag and press Enter">
+        <p class="admin-form-hint">Featured articles are highlighted on the homepage hero section.</p>
       </div>
     </div>
   </div>
 
   <div class="admin-save-bar">
     <a href="{{ route('admin.articles.index') }}" class="btn-admin-ghost">Cancel</a>
-    <button type="submit" name="action" value="draft" class="btn-admin-outline">Save as Draft</button>
-    <button type="submit" name="action" value="publish" class="btn-admin-primary"><i class="bi bi-check2"></i> {{ $isEdit ? 'Update Article' : 'Publish Article' }}</button>
+    <button type="button" class="btn-admin-outline" onclick="setStatusAndSubmit('draft')">Save as Draft</button>
+    <button type="button" class="btn-admin-primary" onclick="setStatusAndSubmit('published')"><i class="bi bi-check2"></i> {{ $isEdit ? 'Update Article' : 'Publish Article' }}</button>
   </div>
 </form>
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <script>
+  // ── Quill editor ──────────────────────────────────────────────
   const quill = new Quill('#quill-editor', {
     theme: 'snow',
     placeholder: 'Start writing your article...',
@@ -158,9 +166,60 @@
     }
   });
 
-  // Sync Quill's HTML into the hidden textarea Laravel will actually receive on submit.
+  // Sync Quill HTML into the hidden textarea on submit
   document.querySelector('form').addEventListener('submit', function () {
     document.querySelector('#body-input').value = quill.root.innerHTML;
   });
+
+  // ── Save as Draft / Publish buttons ───────────────────────────
+  function setStatusAndSubmit(status) {
+    const select = document.querySelector('select[name="status"]');
+    if (select) select.value = status;
+    // Sync Quill before submit
+    document.querySelector('#body-input').value = quill.root.innerHTML;
+    document.querySelector('form').submit();
+  }
+
+  // ── Image upload zone ─────────────────────────────────────────
+  const input = document.getElementById('thumbnailInput');
+  const zone  = document.getElementById('uploadZone');
+  const label = document.getElementById('uploadLabel');
+  const icon  = document.getElementById('uploadIcon');
+
+  input.addEventListener('change', function () {
+    if (this.files && this.files[0]) {
+      const name = this.files[0].name;
+      label.innerHTML = '<strong>' + name + '</strong> selected';
+      icon.className = 'bi bi-image-fill';
+      zone.style.borderColor = 'var(--emerald-brand)';
+      zone.style.background  = 'rgba(40,98,58,0.05)';
+    }
+  });
+
+  // Drag-and-drop support
+  zone.addEventListener('dragover',  e => { e.preventDefault(); zone.style.borderColor = 'var(--emerald-brand)'; });
+  zone.addEventListener('dragleave', () => zone.style.borderColor = '');
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    if (e.dataTransfer.files.length) {
+      input.files = e.dataTransfer.files;
+      input.dispatchEvent(new Event('change'));
+    }
+  });
+
+  // ── Auto-generate slug from title ────────────────────────────
+  const titleInput = document.querySelector('input[name="title"]');
+  const slugInput  = document.querySelector('input[name="slug"]');
+  if (titleInput && slugInput) {
+    titleInput.addEventListener('blur', function () {
+      if (!slugInput.value) {
+        slugInput.value = this.value
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .trim()
+          .replace(/\s+/g, '-');
+      }
+    });
+  }
 </script>
 @endpush

@@ -71,6 +71,11 @@ class ArticleController extends Controller
         $data['body'] = Purifier::clean($data['body']);
         $data['featured'] = $request->boolean('featured');
 
+        // Auto-set published_at when publishing without a date
+        if ($data['status'] === 'published' && empty($data['published_at'])) {
+            $data['published_at'] = now();
+        }
+
         if ($request->hasFile('thumbnail')) {
             $path = $request->file('thumbnail')->store('article-thumbnails', 'public');
             $data['thumbnail_url'] = Storage::url($path);
@@ -110,6 +115,11 @@ class ArticleController extends Controller
         $data['slug'] = $data['slug'] ?? Str::slug($data['title']);
         $data['body'] = Purifier::clean($data['body']);
         $data['featured'] = $request->boolean('featured');
+
+        // Auto-set published_at when publishing without a date
+        if ($data['status'] === 'published' && empty($data['published_at']) && ! $article->published_at) {
+            $data['published_at'] = now();
+        }
 
         if ($request->hasFile('thumbnail')) {
             $path = $request->file('thumbnail')->store('article-thumbnails', 'public');

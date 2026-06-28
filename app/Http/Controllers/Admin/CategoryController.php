@@ -60,6 +60,10 @@ class CategoryController extends Controller
 
     public function destroy(Category $category)
     {
+        if ($category->articles()->count() > 0) {
+            return back()->with('error', "Cannot delete \"{$category->name}\" — it still has {$category->articles()->count()} article(s). Reassign or delete them first.");
+        }
+
         $category->delete();
 
         return back()->with('status', 'Category deleted.');

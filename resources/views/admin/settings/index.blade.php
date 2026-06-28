@@ -74,23 +74,27 @@
 
     <div class="col-lg-4">
       <div class="admin-form-section">
-        <h3>Admin Users</h3>
-        <p class="admin-form-hint mb-3">No user management wired up yet — this is a placeholder for when you add auth.</p>
+        <h3>Admin Account</h3>
         <div class="d-flex align-items-center gap-3 mb-3">
-          <span class="admin-user-avatar" style="background:var(--emerald-brand);">AD</span>
+          <span class="admin-user-avatar">{{ $authUserInitials ?? 'AD' }}</span>
           <div>
-            <div class="table-row-title">Admin User</div>
-            <div class="table-row-sub">admin@healthyliferemedy.com</div>
+            <div class="table-row-title">{{ $authUserName ?? 'Admin User' }}</div>
+            <div class="table-row-sub">{{ Auth::user()?->email ?? 'admin@healthyliferemedy.com' }}</div>
+            <div class="table-row-sub">{{ $authUserRole ?? 'Admin' }}</div>
           </div>
         </div>
-        <button type="button" class="btn-admin-outline w-100 justify-content-center"><i class="bi bi-plus-lg"></i> Invite Team Member</button>
       </div>
 
       <div class="admin-form-section mb-0" style="border-color:#f3c6d3;">
-        <h3 style="color:#c23a5c;">Danger Zone</h3>
-        <p class="admin-form-hint mb-3">These actions are destructive and should be protected carefully once your backend is wired up.</p>
-        <button type="button" class="btn-admin-outline w-100 justify-content-center mb-2" style="color:#c23a5c; border-color:#f3c6d3;">Clear All Cache</button>
-        <button type="button" class="btn-admin-outline w-100 justify-content-center" style="color:#c23a5c; border-color:#f3c6d3;">Export All Data</button>
+        <h3 style="color:#c23a5c;">Maintenance</h3>
+        <p class="admin-form-hint mb-3">Clear the application cache if changes are not appearing on the live site.</p>
+        <form method="POST" action="{{ route('admin.cache.clear') }}">
+          @csrf
+          <button type="submit" class="btn-admin-outline w-100 justify-content-center" style="color:#c23a5c; border-color:#f3c6d3;"
+                  onclick="return confirm('Clear all application cache?');">
+            <i class="bi bi-arrow-clockwise me-1"></i> Clear Application Cache
+          </button>
+        </form>
       </div>
     </div>
   </div>

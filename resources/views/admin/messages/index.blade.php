@@ -48,7 +48,7 @@
           <div class="table-row-sub">{{ $msg->email }}</div>
         </td>
         <td>
-          <span class="status-badge {{ $msg->type === 'advertise' ? 'scheduled' : 'draft' }}">{{ $msg->subject }}</span>
+          <span class="status-badge {{ $msg->type === 'advertise' ? 'published' : 'draft' }}">{{ $msg->subject }}</span>
         </td>
         <td style="max-width:320px;">
           <span class="table-row-sub" style="display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ $msg->preview }}</span>

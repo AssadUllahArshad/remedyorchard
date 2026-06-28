@@ -89,9 +89,17 @@
   </table>
 
   <div class="admin-pagination">
-    <span>Showing {{ count($subscribers) }} of 42,384 subscribers</span>
+    <span>
+      Showing
+      {{ method_exists($subscribers, 'firstItem') ? $subscribers->firstItem() : 1 }}–{{ method_exists($subscribers, 'lastItem') ? $subscribers->lastItem() : count($subscribers) }}
+      of {{ number_format($stats['total']) }} subscribers
+    </span>
     <div class="page-btns">
-      <span class="page-btn active">1</span>
+      @if(method_exists($subscribers, 'links'))
+        {{ $subscribers->links('pagination::bootstrap-5') }}
+      @else
+        <span class="page-btn active">1</span>
+      @endif
     </div>
   </div>
 </div>
