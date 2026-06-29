@@ -7,7 +7,6 @@ use App\Mail\ContactFormSubmitted;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use Mews\Purifier\Facades\Purifier;
 
 class ContactController extends Controller
 {
@@ -25,7 +24,7 @@ class ContactController extends Controller
             'name' => trim($data['first_name'] . ' ' . $data['last_name']),
             'email' => $data['email'],
             'subject' => $data['subject'] ?? 'General inquiry',
-            'body' => Purifier::clean($data['message']),
+            'body' => strip_tags($data['message']),
             'type' => 'contact',
             'received_at' => now(),
         ]);
@@ -48,7 +47,7 @@ class ContactController extends Controller
             'name' => $data['company_name'],
             'email' => $data['email'],
             'subject' => 'Advertise inquiry',
-            'body' => Purifier::clean($data['message'] ?? ''),
+            'body' => strip_tags($data['message'] ?? ''),
             'type' => 'advertise',
             'received_at' => now(),
         ]);
