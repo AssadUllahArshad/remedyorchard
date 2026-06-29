@@ -86,9 +86,15 @@
       <h1>Health information<br>you can actually use.</h1>
       <p class="hero-sub">HealthyLife Remedy publishes evidence-based guides on nutrition, natural remedies, fitness, sleep, and heart health — every article written and reviewed by qualified clinicians, not content mills.</p>
       <div class="d-flex flex-wrap gap-3 align-items-center">
+        @isset($featuredArticle)
+        <a href="{{ route('articles.show', $featuredArticle->slug) }}" class="btn-pill-primary btn-pill-primary--lg">
+          <i class="bi bi-star-fill me-1"></i> Read: {{ \Illuminate\Support\Str::limit($featuredArticle->title, 50) }}
+        </a>
+        @else
         <a href="{{ route('remedies.index') }}" class="btn-pill-primary btn-pill-primary--lg">
           <i class="bi bi-journals me-1"></i> Explore the library
         </a>
+        @endisset
         <a href="{{ route('about') }}" class="btn-pill-outline btn-pill-primary--lg">
           How we vet every article
         </a>
@@ -405,6 +411,7 @@
       <p>Join our newsletter for a single, well-researched health tip every Tuesday — free, and easy to unsubscribe from.</p>
       <form class="newsletter-band-form" method="POST" action="{{ route('newsletter.subscribe') }}">
         @csrf
+        <input type="hidden" name="source" value="home-newsletter-band">
         <input type="email" name="email" placeholder="your@email.com" required>
         <button type="submit">Subscribe Free</button>
       </form>

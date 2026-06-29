@@ -107,7 +107,7 @@
   </table>
 
   <div class="admin-pagination">
-    <span>Showing {{ $articles->count() }} of {{ $counts['all'] }} articles</span>
+    <span>Showing {{ is_array($articles) ? count($articles) : $articles->count() }} of {{ $counts['all'] }} articles</span>
     <div class="page-btns">
       @if(method_exists($articles, 'links'))
         {{ $articles->links('pagination::bootstrap-5') }}

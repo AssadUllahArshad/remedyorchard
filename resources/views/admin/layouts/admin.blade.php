@@ -88,10 +88,12 @@
       </div>
 
       <div class="d-flex align-items-center gap-3">
-        <input type="search" class="admin-search-box" placeholder="Search articles, categories...">
-        <button class="row-action-btn" style="position:relative;">
-          <i class="bi bi-bell"></i>
-        </button>
+        <form method="GET" action="{{ route('admin.articles.index') }}" style="margin:0;">
+          <input type="search" name="search" class="admin-search-box"
+                 placeholder="Search articles..."
+                 value="{{ request()->routeIs('admin.articles.*') ? request('search') : '' }}"
+                 onkeydown="if(event.key==='Enter'){this.form.submit();}">
+        </form>
         <form method="POST" action="{{ route('logout') }}">
           @csrf
           <button type="submit" class="row-action-btn" title="Log out"><i class="bi bi-box-arrow-right"></i></button>

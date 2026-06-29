@@ -12,6 +12,12 @@ class HomeController extends Controller
 {
     public function index()
     {
+        $featuredArticle = Article::with(['category', 'author'])
+            ->published()
+            ->where('featured', true)
+            ->latest('published_at')
+            ->first();
+
         $latestArticles = Article::with(['category', 'author'])
             ->published()
             ->latest('published_at')
@@ -26,6 +32,6 @@ class HomeController extends Controller
             'clinician_count' => Author::count() ?: '18',
         ];
 
-        return view('home', compact('latestArticles', 'categories', 'stats'));
+        return view('home', compact('featuredArticle', 'latestArticles', 'categories', 'stats'));
     }
 }

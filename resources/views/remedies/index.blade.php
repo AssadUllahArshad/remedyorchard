@@ -113,6 +113,7 @@
         <p>Get a single, well-researched health insight delivered every Tuesday. Free, and easy to leave.</p>
         <form class="newsletter-band-form" method="POST" action="{{ route('newsletter.subscribe') }}">
           @csrf
+          <input type="hidden" name="source" value="remedies-page">
           <input type="email" name="email" placeholder="your@email.com" required>
           <button type="submit">Subscribe Free</button>
         </form>

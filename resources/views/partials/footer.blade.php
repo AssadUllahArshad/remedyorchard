@@ -60,6 +60,7 @@
         <p class="footer-desc-v2">One research-backed health insight, delivered every Tuesday. Free, and easy to leave.</p>
         <form method="POST" action="{{ route('newsletter.subscribe') }}" class="mb-1">
           @csrf
+          <input type="hidden" name="source" value="footer">
           <input type="email" name="email" class="footer-input-v2" placeholder="your@email.com" required>
           <button type="submit" class="btn-pill-primary w-100 mt-1" style="border:none; padding:0.75rem;">
             <i class="bi bi-envelope me-1"></i> Subscribe Free

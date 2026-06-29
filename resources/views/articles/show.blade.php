@@ -206,6 +206,7 @@
         <p>One research-backed tip delivered every Tuesday — free.</p>
         <form method="POST" action="{{ route('newsletter.subscribe') }}">
           @csrf
+          <input type="hidden" name="source" value="article-sidebar">
           <input type="email" name="email" placeholder="your@email.com" required>
           <button type="submit">Subscribe Free</button>
         </form>
