@@ -7,7 +7,6 @@ use App\Models\Article;
 use App\Models\Author;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Mews\Purifier\Facades\Purifier;
 
@@ -77,8 +76,10 @@ class ArticleController extends Controller
         }
 
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('article-thumbnails', 'public');
-            $data['thumbnail_url'] = Storage::url($path);
+            $file     = $request->file('thumbnail');
+            $filename = $file->hashName();
+            $file->move(public_path('uploads/article-thumbnails'), $filename);
+            $data['thumbnail_url'] = asset('uploads/article-thumbnails/' . $filename);
         }
 
         Article::create($data);
@@ -122,8 +123,10 @@ class ArticleController extends Controller
         }
 
         if ($request->hasFile('thumbnail')) {
-            $path = $request->file('thumbnail')->store('article-thumbnails', 'public');
-            $data['thumbnail_url'] = Storage::url($path);
+            $file     = $request->file('thumbnail');
+            $filename = $file->hashName();
+            $file->move(public_path('uploads/article-thumbnails'), $filename);
+            $data['thumbnail_url'] = asset('uploads/article-thumbnails/' . $filename);
         }
 
         $article->update($data);

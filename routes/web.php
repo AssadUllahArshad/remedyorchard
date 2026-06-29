@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\MessageController as AdminMessageController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
+use App\Http\Controllers\Admin\ArtisanController;
 use App\Http\Controllers\Admin\ImageUploadController;
 use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
 use Illuminate\Http\Request;
@@ -83,4 +84,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/settings', [AdminSettingsController::class, 'index'])->name('settings.index');
     Route::post('/settings', [AdminSettingsController::class, 'update'])->name('settings.update');
     Route::post('/cache/clear', [AdminSettingsController::class, 'clearCache'])->name('cache.clear');
+
+    Route::get('/artisan', [ArtisanController::class, 'index'])->name('artisan.index');
+    Route::post('/artisan/run', [ArtisanController::class, 'run'])->name('artisan.run');
 });

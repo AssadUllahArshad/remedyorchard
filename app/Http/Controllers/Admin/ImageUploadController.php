@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ImageUploadController extends Controller
 {
@@ -14,8 +13,10 @@ class ImageUploadController extends Controller
             'image' => ['required', 'image', 'max:5120', 'mimes:jpg,jpeg,png,webp,gif'],
         ]);
 
-        $path = $request->file('image')->store('body-images', 'public');
+        $file     = $request->file('image');
+        $filename = $file->hashName();
+        $file->move(public_path('uploads/body-images'), $filename);
 
-        return response()->json(['url' => Storage::url($path)]);
+        return response()->json(['url' => asset('uploads/body-images/' . $filename)]);
     }
 }

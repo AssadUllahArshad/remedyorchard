@@ -58,6 +58,9 @@
       <a href="{{ route('admin.settings.index') }}" class="{{ request()->routeIs('admin.settings.*') ? 'active' : '' }}">
         <i class="bi bi-gear-fill"></i> Settings
       </a>
+      <a href="{{ route('admin.artisan.index') }}" class="{{ request()->routeIs('admin.artisan.*') ? 'active' : '' }}">
+        <i class="bi bi-terminal-fill"></i> Artisan Console
+      </a>
       <a href="{{ route('home') }}" target="_blank">
         <i class="bi bi-box-arrow-up-right"></i> View Live Site
       </a>
