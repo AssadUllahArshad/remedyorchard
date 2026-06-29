@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AdvertiseInquirySubmitted;
+use App\Mail\ContactFormSubmitted;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Mews\Purifier\Facades\Purifier;
 
 class ContactController extends Controller
@@ -18,7 +21,7 @@ class ContactController extends Controller
             'message' => ['required', 'string'],
         ]);
 
-        ContactMessage::create([
+        $contactMessage = ContactMessage::create([
             'name' => trim($data['first_name'] . ' ' . $data['last_name']),
             'email' => $data['email'],
             'subject' => $data['subject'] ?? 'General inquiry',
@@ -27,7 +30,10 @@ class ContactController extends Controller
             'received_at' => now(),
         ]);
 
-        return back()->with('status', 'Thanks! Your message has been received.');
+        Mail::to(config('mail.admin_address', env('ADMIN_EMAIL', 'info@healthyliferemedy.com')))
+            ->send(new ContactFormSubmitted($contactMessage));
+
+        return back()->with('status', 'Thanks! Your message has been received. We\'ll get back to you within 48 hours.');
     }
 
     public function storeAdvertiseInquiry(Request $request)
@@ -38,7 +44,7 @@ class ContactController extends Controller
             'message' => ['nullable', 'string'],
         ]);
 
-        ContactMessage::create([
+        $contactMessage = ContactMessage::create([
             'name' => $data['company_name'],
             'email' => $data['email'],
             'subject' => 'Advertise inquiry',
@@ -47,6 +53,9 @@ class ContactController extends Controller
             'received_at' => now(),
         ]);
 
-        return back()->with('status', 'Advertise inquiry received. Thank you.');
+        Mail::to(config('mail.partnerships_address', env('PARTNERSHIPS_EMAIL', 'contact@healthyliferemedy.com')))
+            ->send(new AdvertiseInquirySubmitted($contactMessage));
+
+        return back()->with('status', 'Advertising inquiry received. Our partnerships team will be in touch shortly.');
     }
 }

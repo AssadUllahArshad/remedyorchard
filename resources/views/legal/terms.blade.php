@@ -35,7 +35,7 @@
         <p>We may revise these Terms of Use at any time. Continued use of the site after changes are posted constitutes acceptance of the revised terms.</p>
 
         <h2>Contact</h2>
-        <p>Questions about these terms can be sent to hello@healthyliferemedy.com or via our <a href="{{ route('contact') }}">Contact page</a>.</p>
+        <p>Questions about these terms can be sent to info@healthyliferemedy.com or via our <a href="{{ route('contact') }}">Contact page</a>.</p>
       </div>
     </div>
   </div>

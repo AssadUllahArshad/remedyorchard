@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeSubscriber;
 use App\Models\Subscriber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class NewsletterController extends Controller
 {
@@ -13,15 +15,20 @@ class NewsletterController extends Controller
             'email' => ['required', 'email'],
         ]);
 
-        Subscriber::updateOrCreate(
+        $result = Subscriber::updateOrCreate(
             ['email' => $data['email']],
             [
-                'source' => 'newsletter-form',
+                'source' => $request->input('source', 'newsletter-form'),
                 'active' => true,
                 'subscribed_at' => now(),
             ]
         );
 
-        return back()->with('status', 'Thanks for subscribing!');
+        // Only send welcome email to brand-new subscribers
+        if ($result->wasRecentlyCreated) {
+            Mail::to($data['email'])->send(new WelcomeSubscriber($data['email']));
+        }
+
+        return back()->with('status', 'You\'re subscribed! Check your inbox for a welcome email.');
     }
 }

@@ -90,7 +90,7 @@
           <span class="ci-icon"><i class="bi bi-envelope-fill"></i></span>
           <div>
             <h4>General enquiries</h4>
-            <p>hello@healthyliferemedy.com</p>
+            <p>info@healthyliferemedy.com</p>
           </div>
         </div>
 
@@ -98,7 +98,7 @@
           <span class="ci-icon"><i class="bi bi-pencil-fill"></i></span>
           <div>
             <h4>Editorial &amp; corrections</h4>
-            <p>editorial@healthyliferemedy.com<br>
+            <p>info@healthyliferemedy.com<br>
             <span style="font-size:0.82rem; color:var(--text-on-dark-faint);">Factual errors are corrected within 48 hours of being confirmed.</span></p>
           </div>
         </div>
@@ -107,7 +107,7 @@
           <span class="ci-icon"><i class="bi bi-megaphone-fill"></i></span>
           <div>
             <h4>Advertising &amp; partnerships</h4>
-            <p>partners@healthyliferemedy.com<br>
+            <p>contact@healthyliferemedy.com<br>
             <span style="font-size:0.82rem; color:var(--text-on-dark-faint);">Editorial and commercial operations are kept strictly separate.</span></p>
           </div>
         </div>

@@ -33,7 +33,7 @@
         <p>Some cookies are placed by third-party services we use, such as advertising networks and analytics providers. These third parties have their own cookie and privacy policies.</p>
 
         <h2>Questions</h2>
-        <p>If you have questions about our use of cookies, contact us at hello@healthyliferemedy.com.</p>
+        <p>If you have questions about our use of cookies, contact us at info@healthyliferemedy.com.</p>
       </div>
     </div>
   </div>

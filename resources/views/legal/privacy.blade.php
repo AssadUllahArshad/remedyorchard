@@ -47,7 +47,7 @@
         <p>We may update this Privacy Policy from time to time. Material changes will be reflected by an updated "Last updated" date at the top of this page.</p>
 
         <h2>Contact Us</h2>
-        <p>If you have questions about this Privacy Policy, please reach out via our <a href="{{ route('contact') }}">Contact page</a> or email hello@healthyliferemedy.com.</p>
+        <p>If you have questions about this Privacy Policy, please reach out via our <a href="{{ route('contact') }}">Contact page</a> or email info@healthyliferemedy.com.</p>
       </div>
     </div>
   </div>
