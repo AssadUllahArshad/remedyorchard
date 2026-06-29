@@ -20,6 +20,7 @@ class ArticleController extends Controller
         return view('remedies.index', compact('articles', 'categories'));
     }
 
+    // Comment
     public function show(Article $article)
     {
         $related = Article::with(['category', 'author'])
