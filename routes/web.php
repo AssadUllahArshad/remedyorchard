@@ -41,11 +41,18 @@ Route::get('/advertise', [PageController::class, 'advertise'])->name('advertise'
 Route::post('/advertise', [ContactController::class, 'storeAdvertiseInquiry'])->name('advertise.submit')->middleware('throttle:5,1');
 
 Route::get('/sitemap.xml', function () {
-    $articles   = \App\Models\Article::published()->latest('published_at')->get(['slug', 'updated_at', 'thumbnail_url']);
-    $categories = \App\Models\Category::orderBy('name')->get(['slug', 'updated_at']);
-    return response()->view('sitemap', compact('articles', 'categories'))
-                     ->header('Content-Type', 'application/xml')
-                     ->header('Cache-Control', 'public, max-age=3600');
+    $articles   = \App\Models\Article::published()
+                    ->latest('published_at')
+                    ->get(['slug', 'title', 'excerpt', 'thumbnail_url', 'published_at', 'updated_at']);
+    $categories = \App\Models\Category::withCount('articles')
+                    ->orderBy('name')
+                    ->get(['id', 'slug', 'name', 'updated_at']);
+    $first = $articles->first();
+    $sitemapLastmod = $first ? $first->updated_at : now();
+    return response()->view('sitemap', compact('articles', 'categories', 'sitemapLastmod'))
+                     ->header('Content-Type', 'application/xml; charset=UTF-8')
+                     ->header('Cache-Control', 'public, max-age=3600')
+                     ->header('X-Robots-Tag', 'noindex');
 })->name('sitemap');
 
 Route::get('/robots.txt', function () {
