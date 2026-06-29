@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\MessageController as AdminMessageController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
+use App\Http\Controllers\Admin\ImageUploadController;
 use App\Http\Controllers\Admin\SubscriberController as AdminSubscriberController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +39,19 @@ Route::get('/medical-disclaimer', [PageController::class, 'medicalDisclaimer'])-
 Route::get('/advertise', [PageController::class, 'advertise'])->name('advertise');
 Route::post('/advertise', [ContactController::class, 'storeAdvertiseInquiry'])->name('advertise.submit')->middleware('throttle:5,1');
 
+Route::get('/sitemap.xml', function () {
+    $articles   = \App\Models\Article::published()->latest('published_at')->get(['slug', 'updated_at', 'thumbnail_url']);
+    $categories = \App\Models\Category::orderBy('name')->get(['slug', 'updated_at']);
+    return response()->view('sitemap', compact('articles', 'categories'))
+                     ->header('Content-Type', 'application/xml')
+                     ->header('Cache-Control', 'public, max-age=3600');
+})->name('sitemap');
+
+Route::get('/robots.txt', function () {
+    $content = "User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /admin/\nDisallow: /login\nDisallow: /logout\n\nSitemap: " . url('/sitemap.xml') . "\n";
+    return response($content, 200)->header('Content-Type', 'text/plain');
+});
+
 Route::get('/admin/login', fn () => redirect()->route('login'));
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -56,6 +70,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/categories/{category}/edit', [AdminCategoryController::class, 'edit'])->name('categories.edit');
     Route::put('/categories/{category}', [AdminCategoryController::class, 'update'])->name('categories.update');
     Route::delete('/categories/{category}', [AdminCategoryController::class, 'destroy'])->name('categories.destroy');
+
+    Route::post('/images/upload', [ImageUploadController::class, 'store'])->name('images.upload');
 
     Route::get('/subscribers', [AdminSubscriberController::class, 'index'])->name('subscribers.index');
     Route::delete('/subscribers/{subscriber}', [AdminSubscriberController::class, 'destroy'])->name('subscribers.destroy');

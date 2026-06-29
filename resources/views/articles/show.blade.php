@@ -2,6 +2,66 @@
 
 @section('title', ($article->meta_title ?? $article->title) . ' | HealthyLife Remedy')
 @section('meta_description', $article->meta_description ?? $article->excerpt ?? '')
+@section('og_type', 'article')
+@section('og_title', $article->meta_title ?? $article->title)
+@section('og_description', $article->meta_description ?? $article->excerpt ?? '')
+@section('og_image', $article->thumbnail_url ?? asset('logo/og-default.jpg'))
+
+@if($article->thumbnail_url)
+@section('preload_hints')
+<link rel="preload" as="image" href="{{ $article->thumbnail_url }}">
+@endsection
+@endif
+
+@push('scripts')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "{{ route('articles.show', $article->slug) }}#article",
+      "headline": {{ Js::from($article->title) }},
+      "description": {{ Js::from($article->excerpt ?? '') }},
+      "datePublished": "{{ optional($article->published_at)->toIso8601String() }}",
+      "dateModified": "{{ $article->updated_at->toIso8601String() }}",
+      "author": {
+        "@type": "Person",
+        "name": {{ Js::from($article->author->name ?? 'HealthyLife Remedy') }}
+      },
+      "publisher": {
+        "@id": "{{ config('seo.site_url') }}/#organization"
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": {{ Js::from($article->thumbnail_url ?? config('seo.og_image')) }}
+      },
+      "url": "{{ route('articles.show', $article->slug) }}",
+      "mainEntityOfPage": "{{ route('articles.show', $article->slug) }}"
+      @if($article->read_time)
+      ,"timeRequired": "{{ $article->read_time }}"
+      @endif
+      @if($article->category)
+      ,"articleSection": {{ Js::from($article->category->name) }}
+      @endif
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ url('/') }}" },
+        { "@type": "ListItem", "position": 2, "name": "Remedies", "item": "{{ url('/remedies') }}" },
+        @if($article->category)
+        { "@type": "ListItem", "position": 3, "name": {{ Js::from($article->category->name) }}, "item": "{{ route('categories.show', $article->category->slug) }}" },
+        { "@type": "ListItem", "position": 4, "name": {{ Js::from($article->title) }}, "item": "{{ route('articles.show', $article->slug) }}" }
+        @else
+        { "@type": "ListItem", "position": 3, "name": {{ Js::from($article->title) }}, "item": "{{ route('articles.show', $article->slug) }}" }
+        @endif
+      ]
+    }
+  ]
+}
+</script>
+@endpush
 
 @section('content')
 
@@ -81,9 +141,12 @@
            @isset($article->thumbnail_url) style="background-image:url('{{ $article->thumbnail_url }}')" @endisset></div>
 
       {{-- Article body — sanitised by mews/purifier on save --}}
-      <article class="article-body-v2">
+      <article class="article-body-v2" id="article-body">
         {!! $article->body !!}
       </article>
+
+      {{-- In-content ad (after body) --}}
+      @include('partials.ad-slot', ['slot' => config('seo.adsense_slot_article'), 'format' => 'auto'])
 
       {{-- Footer row --}}
       <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mt-4 pt-4"
@@ -147,6 +210,9 @@
           <button type="submit">Subscribe Free</button>
         </form>
       </div>
+
+      {{-- Sidebar ad --}}
+      @include('partials.ad-slot', ['slot' => config('seo.adsense_slot_sidebar'), 'format' => 'auto'])
 
       {{-- Editorial standards --}}
       <div class="widget-dark">

@@ -2,6 +2,7 @@
 
 @section('title', 'Cookie Policy | HealthyLife Remedy')
 @section('meta_description', 'Learn how HealthyLife Remedy uses cookies and how you can manage your cookie preferences.')
+@section('robots', 'noindex, follow')
 
 @section('content')
 <section class="page-hero-light">

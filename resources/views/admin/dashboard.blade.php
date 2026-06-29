@@ -24,10 +24,10 @@
     ];
 
     $recentArticles = $recentArticles ?? [
-        (object)['title' => '12 Proven Home Remedies to Lower Blood Pressure', 'category' => (object)['name'=>'Heart Health'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-22'), 'thumb_class' => 'img-ph-1'],
-        (object)['title' => 'The Anti-Inflammatory Diet: A Complete 30-Day Plan', 'category' => (object)['name'=>'Nutrition'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-20'), 'thumb_class' => 'img-ph-2'],
-        (object)['title' => '7 Adaptogenic Herbs That Actually Work', 'category' => (object)['name'=>'Home Remedies'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-18'), 'thumb_class' => 'img-ph-3'],
-        (object)['title' => 'Magnesium for Sleep: What the Research Says', 'category' => (object)['name'=>'Sleep'], 'status' => 'draft', 'published_at' => null, 'thumb_class' => 'img-ph-4'],
+        (object)['slug' => 'blood-pressure-remedies',  'title' => '12 Proven Home Remedies to Lower Blood Pressure', 'category' => (object)['name'=>'Heart Health'],  'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-22'), 'thumb_class' => 'img-ph-1'],
+        (object)['slug' => 'anti-inflammatory-diet',   'title' => 'The Anti-Inflammatory Diet: A Complete 30-Day Plan', 'category' => (object)['name'=>'Nutrition'],    'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-20'), 'thumb_class' => 'img-ph-2'],
+        (object)['slug' => 'adaptogenic-herbs',        'title' => '7 Adaptogenic Herbs That Actually Work', 'category' => (object)['name'=>'Home Remedies'], 'status' => 'published', 'published_at' => \Carbon\Carbon::parse('2026-06-18'), 'thumb_class' => 'img-ph-3'],
+        (object)['slug' => 'magnesium-for-sleep',      'title' => 'Magnesium for Sleep: What the Research Says', 'category' => (object)['name'=>'Sleep'],         'status' => 'draft',      'published_at' => null, 'thumb_class' => 'img-ph-4'],
     ];
 @endphp
 
@@ -107,7 +107,7 @@
             </td>
             <td>{{ $article->published_at ? $article->published_at->format('M j, Y') : '—' }}</td>
             <td>
-              <a href="{{ route('admin.articles.edit', $article->id) }}" class="row-action-btn"><i class="bi bi-pencil"></i></a>
+              <a href="{{ route('admin.articles.edit', $article->slug) }}" class="row-action-btn"><i class="bi bi-pencil"></i></a>
             </td>
           </tr>
           @endforeach

@@ -3,7 +3,7 @@
     $category = $category ?? (object)['name' => '', 'slug' => '', 'icon' => 'bi-apple', 'description' => ''];
 @endphp
 
-<form method="POST" action="{{ $isEdit ? route('admin.categories.update', $category->id) : route('admin.categories.store') }}" style="max-width:640px;">
+<form method="POST" action="{{ $isEdit ? route('admin.categories.update', $category->slug) : route('admin.categories.store') }}" style="max-width:640px;">
   @csrf
   @if($isEdit) @method('PUT') @endif
 

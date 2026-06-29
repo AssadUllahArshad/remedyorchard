@@ -2,6 +2,7 @@
 
 @section('title', 'Medical Disclaimer | HealthyLife Remedy')
 @section('meta_description', 'Important medical disclaimer regarding the informational content published on HealthyLife Remedy.')
+@section('robots', 'noindex, follow')
 
 @section('content')
 <section class="page-hero-light">

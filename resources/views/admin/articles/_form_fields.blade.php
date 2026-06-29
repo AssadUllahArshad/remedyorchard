@@ -1,5 +1,11 @@
 @push('styles')
 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
+<style>
+  .editor-wrap { border: 1px solid var(--admin-border, #d1d5db); border-radius: 8px; overflow: hidden; }
+  .editor-wrap .ql-toolbar { border: none; border-bottom: 1px solid #d1d5db; background: #f9fafb; }
+  .editor-wrap .ql-container { border: none; min-height: 380px; font-size: 0.97rem; }
+  .editor-wrap .ql-editor { min-height: 380px; }
+</style>
 @endpush
 
 {{--
@@ -53,10 +59,35 @@
         <textarea name="excerpt" class="admin-textarea mb-3" rows="2" placeholder="A one or two sentence summary shown on article cards and in search results.">{{ old('excerpt', $article->excerpt) }}</textarea>
 
         <label class="admin-form-label">Body</label>
-        <div id="quill-editor" style="background:#fff;">{!! old('body', $article->body) !!}</div>
-        {{-- Hidden field Quill's HTML is synced into before submit --}}
+
+        {{-- Editor toolbar + HTML toggle --}}
+        <div class="editor-wrap">
+          {{-- Quill visual editor --}}
+          <div id="quill-editor">{!! old('body', $article->body) !!}</div>
+
+          {{-- Raw HTML source editor (hidden by default) --}}
+          <textarea id="html-source"
+                    style="display:none; width:100%; min-height:420px; font-family:'Courier New',monospace;
+                           font-size:0.82rem; line-height:1.6; padding:1rem; border:none; resize:vertical;
+                           background:#0d1f17; color:#a7f3b8; border-radius:0 0 8px 8px;"
+                    spellcheck="false"
+                    placeholder="Paste or write raw HTML here..."></textarea>
+
+          {{-- Toggle button --}}
+          <div style="display:flex; justify-content:flex-end; padding:6px 10px;
+                      background:#1a3d25; border-radius:0 0 8px 8px; border-top:1px solid #2a5c3a;">
+            <button type="button" id="htmlToggleBtn"
+                    style="font-size:0.75rem; font-weight:600; color:#a7f3b8; background:none;
+                           border:1px solid #3DAA62; border-radius:5px; padding:4px 12px; cursor:pointer;"
+                    title="Toggle between visual editor and raw HTML">
+              &lt;/&gt; HTML Source
+            </button>
+          </div>
+        </div>
+
+        {{-- Hidden field that is actually submitted --}}
         <textarea name="body" id="body-input" style="display:none;"></textarea>
-        <p class="admin-form-hint">Use the toolbar to format text, add headings, links, and images. Sanitize this HTML server-side before saving.</p>
+        <p class="admin-form-hint mt-2">Use the toolbar to write and format content. Click <strong>&lt;/&gt; HTML Source</strong> to paste or edit raw HTML directly.</p>
       </div>
 
       <div class="admin-form-section">
@@ -156,27 +187,93 @@
     theme: 'snow',
     placeholder: 'Start writing your article...',
     modules: {
-      toolbar: [
-        [{ header: [2, 3, false] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['blockquote', 'link', 'image'],
-        ['clean']
-      ]
+      toolbar: {
+        container: [
+          [{ header: [2, 3, 4, false] }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ color: [] }, { background: [] }],
+          [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+          [{ align: [] }],
+          ['blockquote', 'code-block'],
+          ['link', 'image', 'video'],
+          ['clean']
+        ],
+        handlers: {
+          image: function () {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/jpeg,image/png,image/webp,image/gif');
+            input.click();
+            input.addEventListener('change', async function () {
+              const file = input.files[0];
+              if (!file) return;
+              const btn = document.querySelector('.ql-image');
+              if (btn) btn.disabled = true;
+              try {
+                const fd = new FormData();
+                fd.append('image', file);
+                fd.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+                const res  = await fetch('{{ route('admin.images.upload') }}', { method: 'POST', body: fd });
+                if (!res.ok) throw new Error('Upload failed');
+                const data = await res.json();
+                const range = quill.getSelection(true);
+                quill.insertEmbed(range.index, 'image', data.url, 'user');
+                quill.setSelection(range.index + 1, 0, 'silent');
+              } catch (e) {
+                alert('Image upload failed. Check the file size (max 5 MB) and try again.');
+              } finally {
+                if (btn) btn.disabled = false;
+              }
+            });
+          }
+        }
+      }
     }
   });
 
-  // Sync Quill HTML into the hidden textarea on submit
+  // ── HTML source toggle ────────────────────────────────────────
+  const htmlSource  = document.getElementById('html-source');
+  const toggleBtn   = document.getElementById('htmlToggleBtn');
+  const quillWrap   = document.querySelector('.ql-container');
+  const quillToolbar= document.querySelector('.ql-toolbar');
+  let   inHtmlMode  = false;
+
+  toggleBtn.addEventListener('click', function () {
+    inHtmlMode = !inHtmlMode;
+    if (inHtmlMode) {
+      // Visual → HTML: copy Quill's HTML into textarea
+      htmlSource.value = quill.root.innerHTML;
+      htmlSource.style.display = 'block';
+      quillWrap.style.display  = 'none';
+      quillToolbar.style.display = 'none';
+      toggleBtn.textContent = '✎ Visual Editor';
+      toggleBtn.style.color = '#fff';
+    } else {
+      // HTML → Visual: parse textarea HTML back into Quill
+      quill.root.innerHTML = htmlSource.value;
+      htmlSource.style.display  = 'none';
+      quillWrap.style.display   = 'block';
+      quillToolbar.style.display = 'block';
+      toggleBtn.textContent = '</> HTML Source';
+      toggleBtn.style.color = '#a7f3b8';
+    }
+  });
+
+  // Helper: get current body HTML regardless of which mode is active
+  function getBodyHtml() {
+    return inHtmlMode ? htmlSource.value : quill.root.innerHTML;
+  }
+
+  // Sync into the hidden textarea on submit
   document.querySelector('form').addEventListener('submit', function () {
-    document.querySelector('#body-input').value = quill.root.innerHTML;
+    document.querySelector('#body-input').value = getBodyHtml();
   });
 
   // ── Save as Draft / Publish buttons ───────────────────────────
   function setStatusAndSubmit(status) {
     const select = document.querySelector('select[name="status"]');
     if (select) select.value = status;
-    // Sync Quill before submit
-    document.querySelector('#body-input').value = quill.root.innerHTML;
+    document.querySelector('#body-input').value = getBodyHtml();
     document.querySelector('form').submit();
   }
 

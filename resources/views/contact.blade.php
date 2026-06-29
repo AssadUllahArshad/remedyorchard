@@ -2,6 +2,8 @@
 
 @section('title', 'Contact Us | HealthyLife Remedy')
 @section('meta_description', 'Get in touch with the HealthyLife Remedy team for questions, story tips, corrections, or advertising and partnership inquiries.')
+@section('og_title', 'Contact HealthyLife Remedy')
+@section('og_description', 'Get in touch with our team for questions, story tips, corrections, or advertising inquiries.')
 
 @section('content')
 

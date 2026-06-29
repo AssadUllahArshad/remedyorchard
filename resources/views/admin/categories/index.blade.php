@@ -29,8 +29,8 @@
       <div class="d-flex justify-content-between align-items-start mb-3">
         <span class="stat-icon bg-emerald"><i class="bi {{ $cat->icon }}"></i></span>
         <div class="d-flex gap-2">
-          <a href="{{ route('admin.categories.edit', $cat->id) }}" class="row-action-btn"><i class="bi bi-pencil"></i></a>
-          <form action="{{ route('admin.categories.destroy', $cat->id) }}" method="POST" onsubmit="return confirm('Delete this category? Articles inside it will need to be reassigned.');">
+          <a href="{{ route('admin.categories.edit', $cat->slug) }}" class="row-action-btn"><i class="bi bi-pencil"></i></a>
+          <form action="{{ route('admin.categories.destroy', $cat->slug) }}" method="POST" onsubmit="return confirm('Delete this category? Articles inside it will need to be reassigned.');">
             @csrf @method('DELETE')
             <button type="submit" class="row-action-btn danger"><i class="bi bi-trash"></i></button>
           </form>

@@ -2,6 +2,7 @@
 
 @section('title', 'Privacy Policy | HealthyLife Remedy')
 @section('meta_description', 'Read the HealthyLife Remedy privacy policy to learn how we collect, use, and protect your personal information.')
+@section('robots', 'noindex, follow')
 
 @section('content')
 <section class="page-hero-light">

@@ -2,6 +2,8 @@
 
 @section('title', 'About Us | HealthyLife Remedy')
 @section('meta_description', "Learn about HealthyLife Remedy's mission to provide evidence-based natural health information, and meet the doctors, dietitians, and certified experts behind our content.")
+@section('og_title', 'About HealthyLife Remedy — Our Mission & Expert Team')
+@section('og_description', "Meet the doctors, dietitians, and certified experts who write and review every article on HealthyLife Remedy.")
 
 @section('content')
 

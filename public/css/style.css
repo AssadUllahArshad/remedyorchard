@@ -796,17 +796,123 @@ p { margin-bottom: 1rem; }
 .article-body-v2 { font-size: 1.05rem; line-height: 1.82; }
 .article-body-v2 h2 { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--text-on-dark); }
 .article-body-v2 h3 { font-size: 1.2rem; margin-top: 2rem; margin-bottom: 0.75rem; color: var(--text-on-dark); }
+.article-body-v2 h4 { font-size: 1.05rem; margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-on-dark); font-weight: 600; }
 .article-body-v2 p  { margin-bottom: 1.3rem; color: var(--text-on-dark-dim); }
 .article-body-v2 ul, .article-body-v2 ol { margin-bottom: 1.3rem; padding-left: 1.5rem; color: var(--text-on-dark-dim); }
 .article-body-v2 li { margin-bottom: 0.5rem; }
 .article-body-v2 strong { color: var(--text-on-dark); }
+.article-body-v2 a { color: var(--emerald-bright); text-decoration: underline; text-decoration-color: rgba(61,170,98,0.4); text-underline-offset: 3px; }
+.article-body-v2 a:hover { text-decoration-color: var(--emerald-bright); }
+.article-body-v2 hr { border: none; border-top: 1px solid var(--emerald-line); margin: 2.5rem 0; }
 
+/* In-body images */
+.article-body-v2 img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 1.75rem auto;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+}
+.article-body-v2 figure {
+  margin: 2rem 0;
+  text-align: center;
+}
+.article-body-v2 figcaption {
+  font-size: 0.82rem;
+  color: var(--text-on-dark-faint);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Blockquote */
+.article-body-v2 blockquote {
+  margin: 2rem 0;
+  padding: 1.25rem 1.5rem;
+  border-left: 4px solid var(--emerald-bright);
+  background: rgba(40,98,58,0.08);
+  border-radius: 0 8px 8px 0;
+  font-size: 1.08rem;
+  font-style: italic;
+  color: var(--text-on-dark-dim);
+}
+.article-body-v2 blockquote p { margin-bottom: 0; color: inherit; }
+
+/* Code */
+.article-body-v2 code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.88em;
+  background: rgba(61,170,98,0.12);
+  color: var(--emerald-bright);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+}
+.article-body-v2 pre {
+  background: #0d1f17;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  margin: 1.75rem 0;
+}
+.article-body-v2 pre code {
+  background: none;
+  color: #a7f3b8;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+/* Tables */
+.article-body-v2 table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.article-body-v2 th {
+  background: var(--emerald-deep);
+  color: #fff;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.article-body-v2 td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--emerald-line);
+  color: var(--text-on-dark-dim);
+  vertical-align: top;
+}
+.article-body-v2 tr:last-child td { border-bottom: none; }
+
+/* Video embeds (YouTube/Vimeo iframes from Quill video) */
+.article-body-v2 .ql-video,
+.article-body-v2 iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 10px;
+  border: none;
+  margin: 1.75rem 0;
+}
+
+/* Light mode overrides */
 [data-theme="light"] .article-body-v2 h2,
-[data-theme="light"] .article-body-v2 h3 { color: var(--text-on-light); }
+[data-theme="light"] .article-body-v2 h3,
+[data-theme="light"] .article-body-v2 h4 { color: var(--text-on-light); }
 [data-theme="light"] .article-body-v2 p,
 [data-theme="light"] .article-body-v2 ul,
 [data-theme="light"] .article-body-v2 li { color: var(--text-on-light-dim); }
 [data-theme="light"] .article-body-v2 strong { color: var(--text-on-light); }
+[data-theme="light"] .article-body-v2 blockquote { background: rgba(40,98,58,0.06); color: var(--text-on-light-dim); }
+[data-theme="light"] .article-body-v2 figcaption { color: #6b7280; }
+[data-theme="light"] .article-body-v2 td { color: var(--text-on-light-dim); border-color: #e5e7eb; }
+[data-theme="light"] .article-body-v2 th { background: #1a3d25; }
+[data-theme="light"] .article-body-v2 pre { background: #1e2a22; }
+[data-theme="light"] .article-body-v2 code { background: rgba(40,98,58,0.1); color: #1a6e35; }
 
 .callout-box-v2 {
   background: var(--emerald-pill);
@@ -1613,6 +1719,10 @@ p { margin-bottom: 1rem; }
 
 /* ── 51. Contact form CTA button ── */
 [data-theme="light"] .card-dark .btn-pill-primary { border: none; color: #fff !important; }
+
+/* ── AdSense slots ── */
+.ad-slot-wrap { margin: 2rem 0; min-height: 0; overflow: hidden; }
+.ad-slot-wrap:empty { display: none; }
 
 /* ── 52. Category filters on section-dark (articles grid) ── */
 [data-theme="light"] .section-dark .pill-filter {

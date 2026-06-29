@@ -2,6 +2,13 @@
 
 @section('title', 'HealthyLife Remedy — Evidence-Based Natural Health & Wellness')
 @section('meta_description', 'Your trusted guide to natural health, evidence-based nutrition, and holistic wellness. Doctor-reviewed articles on home remedies, nutrition, mental health, fitness, sleep, and heart health.')
+@section('og_title', 'HealthyLife Remedy — Evidence-Based Natural Health & Wellness')
+@section('og_description', 'Doctor-reviewed articles on natural health, home remedies, nutrition, mental health, fitness, sleep, and heart health.')
+@section('preload_hints')
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="dns-prefetch" href="https://images.unsplash.com">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1600&q=85&auto=format&fit=crop&fm=webp" fetchpriority="high">
+@endsection
 
 @section('content')
 

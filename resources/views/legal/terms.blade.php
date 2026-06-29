@@ -2,6 +2,7 @@
 
 @section('title', 'Terms of Use | HealthyLife Remedy')
 @section('meta_description', 'Read the terms and conditions governing your use of healthyliferemedy.com.')
+@section('robots', 'noindex, follow')
 
 @section('content')
 <section class="page-hero-light">

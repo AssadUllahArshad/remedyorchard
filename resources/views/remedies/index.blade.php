@@ -2,6 +2,8 @@
 
 @section('title', 'All Remedies & Articles | HealthyLife Remedy')
 @section('meta_description', 'Browse our complete library of clinician-reviewed articles on nutrition, home remedies, mental health, fitness, sleep, and heart health.')
+@section('og_title', 'All Remedies & Articles — HealthyLife Remedy')
+@section('og_description', 'Browse our complete library of clinician-reviewed articles on nutrition, home remedies, mental health, fitness, sleep, and heart health.')
 
 @section('content')
 
