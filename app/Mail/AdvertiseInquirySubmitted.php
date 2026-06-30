@@ -13,13 +13,13 @@ class AdvertiseInquirySubmitted extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct(public ContactMessage $message) {}
+    public function __construct(public ContactMessage $submission) {}
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'New Advertising Inquiry: ' . $this->message->name,
-            replyTo: [new \Illuminate\Mail\Mailables\Address($this->message->email, $this->message->name)],
+            subject: 'New Advertising Inquiry: ' . $this->submission->name,
+            replyTo: [new \Illuminate\Mail\Mailables\Address($this->submission->email, $this->submission->name)],
         );
     }
 

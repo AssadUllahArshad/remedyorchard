@@ -28,23 +28,23 @@
   <div class="body">
     <div class="field">
       <label>From</label>
-      <p>{{ $message->name }} &lt;{{ $message->email }}&gt;</p>
+      <p>{{ $submission->name }} &lt;{{ $submission->email }}&gt;</p>
     </div>
     <div class="field">
       <label>Subject</label>
-      <p>{{ $message->subject }}</p>
+      <p>{{ $submission->subject }}</p>
     </div>
     <div class="field">
       <label>Message</label>
       <div class="message-box">
-        <p>{{ strip_tags($message->body) }}</p>
+        <p>{{ strip_tags($submission->body) }}</p>
       </div>
     </div>
     <a href="{{ url('/admin/messages') }}" class="btn">View in Admin Panel</a>
   </div>
   <div class="footer">
     This email was sent automatically when someone submitted the contact form on HealthyLife Remedy.<br>
-    Reply directly to this email to respond to {{ $message->name }}.
+    Reply directly to this email to respond to {{ $submission->name }}.
   </div>
 </div>
 </body>

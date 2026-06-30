@@ -30,17 +30,17 @@
     <span class="badge">Advertising / Partnership</span>
     <div class="field">
       <label>Company / Name</label>
-      <p>{{ $message->name }}</p>
+      <p>{{ $submission->name }}</p>
     </div>
     <div class="field">
       <label>Email</label>
-      <p>{{ $message->email }}</p>
+      <p>{{ $submission->email }}</p>
     </div>
-    @if($message->body)
+    @if($submission->body)
     <div class="field">
       <label>Message</label>
       <div class="message-box">
-        <p>{{ strip_tags($message->body) }}</p>
+        <p>{{ strip_tags($submission->body) }}</p>
       </div>
     </div>
     @endif
@@ -48,7 +48,7 @@
   </div>
   <div class="footer">
     This email was sent automatically from the Advertise page on HealthyLife Remedy.<br>
-    Reply directly to this email to respond to {{ $message->name }}.
+    Reply directly to this email to respond to {{ $submission->name }}.
   </div>
 </div>
 </body>
