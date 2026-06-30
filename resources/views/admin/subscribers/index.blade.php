@@ -69,7 +69,7 @@
         <td><input type="checkbox"></td>
         <td class="table-row-title">{{ $sub->email }}</td>
         <td>{{ $sub->source }}</td>
-        <td>{{ $sub->subscribed_at->format('M j, Y') }}</td>
+        <td>{{ $sub->subscribed_at ? $sub->subscribed_at->format('M j, Y') : '—' }}</td>
         <td>
           <form action="{{ route('admin.subscribers.destroy', $sub->id) }}" method="POST" onsubmit="return confirm('Remove this subscriber?');">
             @csrf @method('DELETE')

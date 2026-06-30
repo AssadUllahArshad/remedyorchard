@@ -40,12 +40,16 @@ class SettingsController extends Controller
         return back()->with('status', 'Settings saved.');
     }
 
-    public function clearCache()
+    public function clearCache(Request $request)
     {
         Artisan::call('cache:clear');
         Artisan::call('view:clear');
         Artisan::call('config:clear');
         Artisan::call('route:clear');
+
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Cache cleared.']);
+        }
 
         return back()->with('status', 'Application cache cleared successfully.');
     }

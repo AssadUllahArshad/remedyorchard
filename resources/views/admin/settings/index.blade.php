@@ -88,13 +88,12 @@
       <div class="admin-form-section mb-0" style="border-color:#f3c6d3;">
         <h3 style="color:#c23a5c;">Maintenance</h3>
         <p class="admin-form-hint mb-3">Clear the application cache if changes are not appearing on the live site.</p>
-        <form method="POST" action="{{ route('admin.cache.clear') }}">
-          @csrf
-          <button type="submit" class="btn-admin-outline w-100 justify-content-center" style="color:#c23a5c; border-color:#f3c6d3;"
-                  onclick="return confirm('Clear all application cache?');">
-            <i class="bi bi-arrow-clockwise me-1"></i> Clear Application Cache
-          </button>
-        </form>
+        {{-- NOTE: cannot nest a <form> inside the settings <form> — using JS fetch instead --}}
+        <button type="button" id="clearCacheBtn"
+                class="btn-admin-outline w-100 justify-content-center"
+                style="color:#c23a5c; border-color:#f3c6d3;">
+          <i class="bi bi-arrow-clockwise me-1"></i> Clear Application Cache
+        </button>
       </div>
     </div>
   </div>
@@ -103,5 +102,38 @@
     <button type="submit" class="btn-admin-primary"><i class="bi bi-check2"></i> Save Settings</button>
   </div>
 </form>
+
+@push('scripts')
+<script>
+document.getElementById('clearCacheBtn').addEventListener('click', function () {
+  if (!confirm('Clear all application cache?')) return;
+  const btn = this;
+  btn.disabled = true;
+  btn.innerHTML = '<i class="bi bi-hourglass-split me-1"></i> Clearing…';
+  fetch('{{ route('admin.cache.clear') }}', {
+    method: 'POST',
+    headers: {
+      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+      'Accept': 'application/json',
+    },
+  })
+  .then(function (r) {
+    if (r.ok || r.redirected) {
+      btn.innerHTML = '<i class="bi bi-check2 me-1"></i> Cache Cleared!';
+      btn.style.color = '#28623A';
+      btn.style.borderColor = '#28623A';
+      setTimeout(function () { location.reload(); }, 1200);
+    } else {
+      throw new Error('Request failed');
+    }
+  })
+  .catch(function () {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-arrow-clockwise me-1"></i> Clear Application Cache';
+    alert('Cache clear failed. Try via the Artisan Console instead.');
+  });
+});
+</script>
+@endpush
 
 @endsection

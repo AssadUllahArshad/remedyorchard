@@ -38,7 +38,7 @@
     ];
 @endphp
 
-<form method="POST" action="{{ $isEdit ? route('admin.articles.update', $article->slug) : route('admin.articles.store') }}" enctype="multipart/form-data">
+<form id="article-form" method="POST" action="{{ $isEdit ? route('admin.articles.update', $article->slug) : route('admin.articles.store') }}" enctype="multipart/form-data">
   @csrf
   @if($isEdit) @method('PUT') @endif
 
@@ -265,16 +265,17 @@
   }
 
   // Sync into the hidden textarea on submit
-  document.querySelector('form').addEventListener('submit', function () {
+  const articleForm = document.getElementById('article-form');
+  articleForm.addEventListener('submit', function () {
     document.querySelector('#body-input').value = getBodyHtml();
   });
 
   // ── Save as Draft / Publish buttons ───────────────────────────
   function setStatusAndSubmit(status) {
-    const select = document.querySelector('select[name="status"]');
+    const select = articleForm.querySelector('select[name="status"]');
     if (select) select.value = status;
     document.querySelector('#body-input').value = getBodyHtml();
-    document.querySelector('form').submit();
+    articleForm.submit();
   }
 
   // ── Image upload zone ─────────────────────────────────────────
