@@ -6,7 +6,7 @@
 <title>@yield('title', config('seo.site_name') . ' — ' . config('seo.tagline'))</title>
 <meta name="description" content="@yield('meta_description', config('seo.description'))">
 <link rel="canonical" href="{{ url()->current() }}">
-<link rel="icon" type="image/svg+xml" href="{{ asset('logo/icon-mark.svg') }}">
+<link rel="icon" type="image/jpeg" href="{{ asset('logo/logo.jpg') }}">
 <meta name="robots" content="@yield('robots', 'index, follow')">
 <link rel="sitemap" type="application/xml" href="{{ url('/sitemap.xml') }}">
 
@@ -17,6 +17,24 @@
 @if(config('seo.bing_verification'))
 <meta name="msvalidate.01" content="{{ config('seo.bing_verification') }}">
 @endif
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-D5KJBSEVQC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-D5KJBSEVQC');
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-58833QJW');</script>
+<!-- End Google Tag Manager -->
 
 {{-- Open Graph --}}
 <meta property="og:site_name" content="{{ config('seo.site_name') }}">
@@ -71,6 +89,11 @@
 </head>
 <body>
 
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-58833QJW"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
 @include('partials.header')
 
 @yield('content')
@@ -93,9 +116,31 @@
   document.querySelectorAll('[data-toggle-menu]').forEach(function(btn) {
     btn.addEventListener('click', function() {
       if (mobileMenu) mobileMenu.classList.toggle('open');
+      syncHeaderHeight();
     });
   });
+
+  // Header is position:fixed, so body needs matching padding-top to avoid
+  // content sliding underneath it — measured exactly, not guessed, since
+  // the header's height varies (mobile menu open/closed, text wrapping).
+  var siteHeader = document.querySelector('.site-header');
+  function syncHeaderHeight() {
+    if (!siteHeader) return;
+    document.documentElement.style.setProperty('--header-h', siteHeader.offsetHeight + 'px');
+  }
+  syncHeaderHeight();
+  window.addEventListener('resize', syncHeaderHeight);
+  window.addEventListener('load', syncHeaderHeight);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(syncHeaderHeight);
+  }
 </script>
+
+<script src="{{ asset('js/kinetic-grid.js') }}" defer></script>
+<script src="{{ asset('js/coverflow.js') }}" defer></script>
+<script src="{{ asset('js/round-carousel.js') }}" defer></script>
+<script src="{{ asset('js/header-interactions.js') }}" defer></script>
+<script src="{{ asset('js/calorie-calculator.js') }}" defer></script>
 
 {{-- Site-wide structured data --}}
 <script type="application/ld+json">
@@ -105,11 +150,11 @@
     {
       "@type": "Organization",
       "@id": "{{ config('seo.site_url') }}/#organization",
-      "name": {{ Js::from(config('seo.site_name')) }},
+      "name": {!! json_encode(config('seo.site_name')) !!},
       "url": "{{ config('seo.site_url') }}",
       "logo": {
         "@type": "ImageObject",
-        "url": "{{ asset('logo/icon-mark.svg') }}"
+        "url": "{{ asset('logo/logo.jpg') }}"
       },
       "contactPoint": {
         "@type": "ContactPoint",
@@ -127,8 +172,8 @@
       "@type": "WebSite",
       "@id": "{{ config('seo.site_url') }}/#website",
       "url": "{{ config('seo.site_url') }}",
-      "name": {{ Js::from(config('seo.site_name')) }},
-      "description": {{ Js::from(config('seo.description')) }},
+      "name": {!! json_encode(config('seo.site_name')) !!},
+      "description": {!! json_encode(config('seo.description')) !!},
       "publisher": { "@id": "{{ config('seo.site_url') }}/#organization" },
       "potentialAction": {
         "@type": "SearchAction",

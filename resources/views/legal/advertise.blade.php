@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Advertise With Us | HealthyLife Remedy')
-@section('meta_description', 'Partner with HealthyLife Remedy to reach an engaged, health-conscious audience through display advertising, sponsored content, and newsletter placements.')
+@section('title', 'Advertise With Us | Healthy Habits Hub')
+@section('meta_description', 'Partner with Healthy Habits Hub to reach an engaged, health-conscious audience through display advertising, sponsored content, and newsletter placements.')
 
 @section('content')
 <section class="page-hero-light">

@@ -23,7 +23,7 @@
 <div class="wrap">
   <div class="header">
     <h1>New Contact Form Submission</h1>
-    <p>HealthyLife Remedy — {{ now()->format('M j, Y \a\t g:ia') }}</p>
+    <p>Healthy Habits Hub — {{ now()->format('M j, Y \a\t g:ia') }}</p>
   </div>
   <div class="body">
     <div class="field">
@@ -43,7 +43,7 @@
     <a href="{{ url('/admin/messages') }}" class="btn">View in Admin Panel</a>
   </div>
   <div class="footer">
-    This email was sent automatically when someone submitted the contact form on HealthyLife Remedy.<br>
+    This email was sent automatically when someone submitted the contact form on Healthy Habits Hub.<br>
     Reply directly to this email to respond to {{ $submission->name }}.
   </div>
 </div>

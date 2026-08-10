@@ -70,9 +70,18 @@ class ArticleController extends Controller
         $data['body'] = Purifier::clean($data['body']);
         $data['featured'] = $request->boolean('featured');
 
-        // Auto-set published_at when publishing without a date
-        if ($data['status'] === 'published' && empty($data['published_at'])) {
-            $data['published_at'] = now();
+        if ($data['status'] === 'published') {
+            if (empty($data['published_at'])) {
+                // No date given — publish now
+                $data['published_at'] = now();
+            } else {
+                $supplied = \Carbon\Carbon::parse($data['published_at']);
+                if ($supplied->isFuture()) {
+                    // Browser sent local time which looks future in UTC — publish now instead.
+                    // Use "Scheduled" status if you actually want a future publish date.
+                    $data['published_at'] = now();
+                }
+            }
         }
 
         if ($request->hasFile('thumbnail')) {
@@ -117,9 +126,17 @@ class ArticleController extends Controller
         $data['body'] = Purifier::clean($data['body']);
         $data['featured'] = $request->boolean('featured');
 
-        // Auto-set published_at when publishing without a date
-        if ($data['status'] === 'published' && empty($data['published_at']) && ! $article->published_at) {
-            $data['published_at'] = now();
+        if ($data['status'] === 'published') {
+            if (empty($data['published_at']) && ! $article->published_at) {
+                // No date given and never published before — publish now
+                $data['published_at'] = now();
+            } elseif (! empty($data['published_at'])) {
+                $supplied = \Carbon\Carbon::parse($data['published_at']);
+                if ($supplied->isFuture()) {
+                    // Browser local time looks future in UTC — snap to now()
+                    $data['published_at'] = $article->published_at ?? now();
+                }
+            }
         }
 
         if ($request->hasFile('thumbnail')) {

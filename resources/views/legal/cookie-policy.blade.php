@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Cookie Policy | HealthyLife Remedy')
-@section('meta_description', 'Learn how HealthyLife Remedy uses cookies and how you can manage your cookie preferences.')
+@section('title', 'Cookie Policy | Healthy Habits Hub')
+@section('meta_description', 'Learn how Healthy Habits Hub uses cookies and how you can manage your cookie preferences.')
 @section('robots', 'noindex, follow')
 
 @section('content')
@@ -15,7 +15,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-9 article-body-v2">
-        <p>This Cookie Policy explains how HealthyLife Remedy uses cookies and similar tracking technologies when you visit our site.</p>
+        <p>This Cookie Policy explains how Healthy Habits Hub uses cookies and similar tracking technologies when you visit our site.</p>
 
         <h2>What Are Cookies?</h2>
         <p>Cookies are small text files placed on your device that help websites remember information about your visit, such as your preferences and browsing activity.</p>
@@ -34,7 +34,7 @@
         <p>Some cookies are placed by third-party services we use, such as advertising networks and analytics providers. These third parties have their own cookie and privacy policies.</p>
 
         <h2>Questions</h2>
-        <p>If you have questions about our use of cookies, contact us at info@healthyliferemedy.com.</p>
+        <p>If you have questions about our use of cookies, contact us at info@healthyhabitshub.com.</p>
       </div>
     </div>
   </div>

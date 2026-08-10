@@ -16,7 +16,7 @@ class WelcomeSubscriber extends Mailable
 
     public function envelope(): Envelope
     {
-        return new Envelope(subject: 'Welcome to HealthyLife Remedy!');
+        return new Envelope(subject: 'Welcome to Healthy Habits Hub!');
     }
 
     public function content(): Content

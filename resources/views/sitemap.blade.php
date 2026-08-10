@@ -1,7 +1,7 @@
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 <?php
 /**
- * XML Sitemap — HealthyLife Remedy
+ * XML Sitemap — Healthy Habits Hub
  *
  * Namespaces used:
  *   sitemaps.org/schemas/sitemap/0.9  — standard sitemap

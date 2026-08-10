@@ -1,17 +1,18 @@
 @extends('layouts.app')
 
-@section('title', 'All Remedies & Articles | HealthyLife Remedy')
+@section('title', 'All Remedies & Articles | Healthy Habits Hub')
 @section('meta_description', 'Browse our complete library of clinician-reviewed articles on nutrition, home remedies, mental health, fitness, sleep, and heart health.')
-@section('og_title', 'All Remedies & Articles — HealthyLife Remedy')
+@section('og_title', 'All Remedies & Articles — Healthy Habits Hub')
 @section('og_description', 'Browse our complete library of clinician-reviewed articles on nutrition, home remedies, mental health, fitness, sleep, and heart health.')
 
 @section('content')
 
 @php
     $imageAssets = [
-        'nutrition'    => 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80&auto=format&fit=crop',
-        'herbs'        => 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80&auto=format&fit=crop',
-        'fitness'      => 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80&auto=format&fit=crop',
+        'nutrition'    => 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80&auto=format&fit=crop',
+        'meal_planning' => 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80&auto=format&fit=crop',
+        'herbs'        => 'https://images.unsplash.com/photo-1508595165502-3e2652e5a405?w=800&q=80&auto=format&fit=crop',
+        'fitness'      => 'https://images.unsplash.com/photo-1573063784589-65fdbd5b6a8f?w=800&q=80&auto=format&fit=crop',
         'sleep'        => 'https://images.unsplash.com/photo-1631558432963-2c7eb7fdc5e2?w=800&q=80&auto=format&fit=crop',
         'heart'        => 'https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=800&q=80&auto=format&fit=crop',
         'mental-health'=> 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80&auto=format&fit=crop',
@@ -38,12 +39,12 @@
 
 <!-- HERO -->
 <section class="hero-v2"
-  style="padding:5rem 0 3.5rem; background-image:url('https://images.unsplash.com/photo-1518611012118-696072aa579a?w=1600&q=85&auto=format&fit=crop');">
+  style="padding:5rem 0 3.5rem; background-image:url('{{ asset('images/remedies-hero.jpg') }}');">
   <div class="container">
     <span class="eyebrow">The full library</span>
-    <h1 class="hero-h1">Clinician-reviewed health guides.</h1>
+    <h1 class="hero-h1">Clinician-Reviewed Health Guides</h1>
     <p class="hero-sub" style="max-width:640px;">
-      Evidence-based articles on nutrition, natural remedies, mental health, fitness, sleep, and cardiovascular health — every one reviewed by a qualified clinician before publication.
+      Evidence-based, research-informed articles on nutrition, natural remedies, mental health, fitness, sleep and cardiovascular health — each guide carefully reviewed by a qualified clinician before publication, so you can find clear, trustworthy health information you can rely on.
     </p>
     <div class="d-flex flex-wrap gap-3 mt-3">
       <span class="trust-badge"><i class="bi bi-shield-check"></i> Peer-reviewed sources only</span>
@@ -105,20 +106,6 @@
       {{ $articles->links() }}
     </div>
     @endif
-
-    {{-- Newsletter nudge (replaces ad placeholder) --}}
-    <div class="mt-5">
-      <div class="newsletter-band">
-        <h2>Stay current with one email per week.</h2>
-        <p>Get a single, well-researched health insight delivered every Tuesday. Free, and easy to leave.</p>
-        <form class="newsletter-band-form" method="POST" action="{{ route('newsletter.subscribe') }}">
-          @csrf
-          <input type="hidden" name="source" value="remedies-page">
-          <input type="email" name="email" placeholder="your@email.com" required>
-          <button type="submit">Subscribe Free</button>
-        </form>
-      </div>
-    </div>
 
   </div>
 </section>

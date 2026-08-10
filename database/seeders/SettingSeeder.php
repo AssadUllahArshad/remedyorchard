@@ -14,7 +14,7 @@ class SettingSeeder extends Seeder
             [
                 'site_name' => 'Healthy Life Remedy',
                 'site_tagline' => 'Natural remedies and wellness insights',
-                'contact_email' => 'hello@healthyliferemedy.com',
+                'contact_email' => 'hello@healthyhabitshub.com',
                 'newsletter_provider' => 'custom',
             ]
         );

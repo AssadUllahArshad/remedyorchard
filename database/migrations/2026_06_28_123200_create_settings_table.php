@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
-            $table->string('site_name')->default('HealthyLife Remedy');
+            $table->string('site_name')->default('Healthy Habits Hub');
             $table->text('site_tagline')->nullable();
             $table->string('contact_email')->nullable();
             $table->string('newsletter_provider')->default('custom');

@@ -9,9 +9,9 @@
 {{-- NOTE: $settings -> a Settings model/singleton, or config values pulled from a settings table. --}}
 @php
     $settings = $settings ?? (object)[
-        'site_name' => 'HealthyLife Remedy',
+        'site_name' => 'Healthy Habits Hub',
         'site_tagline' => 'Your trusted guide to natural health, evidence-based nutrition, and holistic wellness.',
-        'contact_email' => 'hello@healthyliferemedy.com',
+        'contact_email' => 'hello@healthyhabitshub.com',
         'newsletter_provider' => 'mailchimp',
         'google_analytics_id' => '',
         'facebook_url' => '', 'twitter_url' => '', 'instagram_url' => '', 'youtube_url' => '',
@@ -79,7 +79,7 @@
           <span class="admin-user-avatar">{{ $authUserInitials ?? 'AD' }}</span>
           <div>
             <div class="table-row-title">{{ $authUserName ?? 'Admin User' }}</div>
-            <div class="table-row-sub">{{ Auth::user()?->email ?? 'admin@healthyliferemedy.com' }}</div>
+            <div class="table-row-sub">{{ Auth::user()?->email ?? 'admin@healthyhabitshub.com' }}</div>
             <div class="table-row-sub">{{ $authUserRole ?? 'Admin' }}</div>
           </div>
         </div>

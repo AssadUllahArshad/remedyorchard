@@ -4,6 +4,7 @@
       <a class="brand-link" href="{{ route('home') }}">
         <svg width="150" height="38" viewBox="0 0 160 40" xmlns="http://www.w3.org/2000/svg">
           <g><circle cx="20" cy="20" r="18" fill="#28623A"/>
+          <!-- <g><circle cx="20" cy="20" r="18" fill="#1E3A5F"/> -->
           <path d="M10 21 L14.5 21 L17 14 L21 27 L24 17 L26.5 21 L30 21" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
           <text x="46" y="18" font-family="Inter, Arial, sans-serif" font-size="15.5" font-weight="700" fill="#FFFFFF" letter-spacing="0.2">HealthyLife</text>
           <text x="46" y="32" font-family="Inter, Arial, sans-serif" font-size="10" font-weight="600" fill="#3DAA62" letter-spacing="2.5">REMEDY</text>

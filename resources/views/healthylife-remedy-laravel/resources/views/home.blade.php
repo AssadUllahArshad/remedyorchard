@@ -127,7 +127,7 @@
 <section class="section-pill py-section">
   <div class="container">
     <div class="text-center mb-5">
-      <span class="eyebrow d-flex justify-content-center">What you'll find here</span>
+      <span class="eyebrow d-flex justify-content-center">YOUR PATH TO BETTER HEALTH</span>
       <h2 style="font-size:2.2rem; color:#fff;">Your system for better everyday health.</h2>
     </div>
 
@@ -201,7 +201,7 @@
             <div class="card-thumb img-ph {{ $article->thumb_class ?? 'img-ph-1' }}"
                  @isset($article->thumbnail_url) style="background-image:url('{{ $article->thumbnail_url }}')" @endisset></div>
             <div class="card-body">
-              <span class="tag-chip">{{ $article->category->name }}</span>
+              <span class="tag-chip">{{ $article->category->name }}</span>  
               <h3>{{ $article->title }}</h3>
               <p class="excerpt">{{ $article->excerpt }}</p>
               <div class="card-meta"><span>{{ $article->author->name }}</span><span>{{ $article->read_time }}</span></div>
@@ -379,7 +379,7 @@
       <p>Join {{ $stats['newsletter_count'] ?? '42,000+' }} readers getting one research-backed health tip every Tuesday — free, no spam.</p>
       <form class="newsletter-band-form" method="POST" action="{{ route('newsletter.subscribe') }}">
         @csrf
-        <input type="email" name="email" placeholder="your@email.com" required>
+        <input type="email" name="email" placeholder="your@email.com" required autocomplete="email">
         <button type="submit">Subscribe Free</button>
       </form>
     </div>

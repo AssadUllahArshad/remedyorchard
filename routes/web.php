@@ -40,6 +40,8 @@ Route::get('/medical-disclaimer', [PageController::class, 'medicalDisclaimer'])-
 Route::get('/advertise', [PageController::class, 'advertise'])->name('advertise');
 Route::post('/advertise', [ContactController::class, 'storeAdvertiseInquiry'])->name('advertise.submit')->middleware('throttle:5,1');
 
+Route::get('/calorie-calculator', [PageController::class, 'calorieCalculator'])->name('calorie-calculator');
+
 Route::get('/sitemap.xml', function () {
     $articles   = \App\Models\Article::published()
                     ->latest('published_at')

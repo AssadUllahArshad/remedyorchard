@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Welcome to HealthyLife Remedy</title>
+<title>Welcome to Healthy Habits Hub</title>
 <style>
   body { margin:0; padding:0; background:#f4f4f4; font-family:Inter,Arial,sans-serif; }
   .wrap { max-width:580px; margin:32px auto; background:#ffffff; border-radius:10px; overflow:hidden; box-shadow:0 2px 12px rgba(0,0,0,0.08); }
@@ -28,7 +28,7 @@
       <circle cx="26" cy="26" r="26" fill="rgba(255,255,255,0.15)"/>
       <path d="M13 27 L19 27 L22 18 L27 35 L31 22 L34 27 L39 27" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
-    <h1>HealthyLife Remedy</h1>
+    <h1>Healthy Habits Hub</h1>
     <p>Evidence-based health & wellness</p>
   </div>
   <div class="body">
@@ -49,9 +49,9 @@
     <p style="font-size:0.85rem; color:#9ca3af;">Your subscribed email: {{ $subscriberEmail }}</p>
   </div>
   <div class="footer">
-    You're receiving this because you subscribed at <a href="{{ url('/') }}">healthyliferemedy.com</a>.<br>
+    You're receiving this because you subscribed at <a href="{{ url('/') }}">healthyhabitshub.com</a>.<br>
     To unsubscribe, reply to this email with "unsubscribe" in the subject line.<br><br>
-    &copy; {{ date('Y') }} HealthyLife Remedy. All rights reserved.
+    &copy; {{ date('Y') }} Healthy Habits Hub. All rights reserved.
   </div>
 </div>
 </body>

@@ -33,7 +33,7 @@ class ArticleSeeder extends Seeder
 <h2>5. Walk for 30 minutes daily</h2>
 <p>Consistent moderate-intensity aerobic exercise reduces resting blood pressure by 5–8 mmHg. Walking is the most studied, most sustainable option — and the benefits accumulate even in three 10-minute sessions.</p>
 <p><em>Medical note: These approaches work best as complements to, not replacements for, prescribed treatment. Always discuss changes with your physician.</em></p>',
-                'meta_title' => '12 Natural Remedies to Lower Blood Pressure | HealthyLife Remedy',
+                'meta_title' => '12 Natural Remedies to Lower Blood Pressure | Healthy Habits Hub',
                 'meta_description' => 'Science-backed natural approaches to lower blood pressure — from hibiscus tea to the DASH diet. Reviewed by a cardiologist.',
             ],
             [
@@ -41,23 +41,57 @@ class ArticleSeeder extends Seeder
                 'author' => 'Emma Rhodes',
                 'title' => 'The Anti-Inflammatory Diet: A Complete 30-Day Plan',
                 'slug' => 'anti-inflammatory-diet',
-                'excerpt' => 'Chronic inflammation is the root cause of most modern diseases. This structured plan helps you eliminate trigger foods step by step.',
-                'thumbnail_url' => 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80&auto=format&fit=crop',
+                'excerpt' => "Inflammation is a common thread running through heart disease, diabetes, Alzheimer's and several cancers. This 30-day plan gives you a week-by-week way to work against it, starting with your next meal.",
+                'thumbnail_url' => 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80&auto=format&fit=crop',
                 'read_time' => '12 min read',
                 'featured' => true,
-                'body' => '<p>Chronic low-grade inflammation is now understood to underlie most of the diseases that shorten lives in the modern world — heart disease, type 2 diabetes, Alzheimer\'s, and many cancers. The encouraging news: food is one of the most powerful levers we have for controlling it.</p>
-<h2>What the research actually says</h2>
-<p>The landmark PREDIMED trial — one of the largest nutrition studies ever conducted — found that a Mediterranean-style diet rich in olive oil and nuts reduced cardiovascular events by 30% compared to a low-fat diet. Subsequent research has linked these same dietary patterns to reduced inflammatory markers including CRP, IL-6, and TNF-α.</p>
-<h2>The 30-day framework</h2>
-<h3>Week 1: Eliminate the main triggers</h3>
-<p>Remove refined sugar, vegetable oils high in omega-6 (sunflower, corn, soybean), ultra-processed foods, and alcohol. This step alone typically reduces systemic CRP levels measurably within two weeks.</p>
-<h3>Week 2: Build the foundation</h3>
-<p>Add fatty fish (salmon, sardines, mackerel) three times per week. Add leafy greens to every meal. Switch to extra-virgin olive oil as your primary cooking fat.</p>
-<h3>Week 3: Add anti-inflammatory spices</h3>
-<p>Turmeric (with black pepper for bioavailability), ginger, and rosemary have all shown anti-inflammatory effects in controlled trials. Add them liberally — they\'re not a substitute for diet quality, but they add meaningful benefit on top.</p>
-<h3>Week 4: Optimise gut health</h3>
-<p>A diverse gut microbiome produces short-chain fatty acids that directly suppress inflammatory pathways. Add fermented foods (kefir, kimchi, sauerkraut) and increase dietary fibre from whole grains, legumes, and vegetables.</p>',
-                'meta_title' => 'Anti-Inflammatory Diet: Complete 30-Day Plan | HealthyLife Remedy',
+                'body' => <<<'EOT'
+<p>Ask a cardiologist, an endocrinologist, and a neurologist what's driving the diseases they treat, and you'll hear a surprisingly similar answer from all three: inflammation. Not the visible, short-term kind — a sprained ankle, a sore throat — but a quieter, low-grade version that runs in the background for years, and that diet has an outsized influence over.</p>
+<p>That's the part worth sitting with. This isn't a factor you're stuck managing after a diagnosis. It's one you can start acting on today.</p>
+
+<h2>The research behind the plan</h2>
+<p>The strongest evidence for a food-first approach to inflammation comes from PREDIMED, one of the largest and best-designed nutrition trials to date. People following a Mediterranean-style diet built around olive oil and nuts had 30% fewer cardiovascular events than those on a standard low-fat diet.</p>
+<p>What makes that number more than a headline is what researchers found underneath it: measurable reductions in the actual inflammatory markers doctors test for — CRP, IL-6 and TNF-α. The diet wasn't just correlated with better outcomes; it was changing the biology behind them.</p>
+
+<h2>How the 30 days breaks down</h2>
+<p>Think of this less as a strict protocol and more as four sequential shifts — each one making the next easier.</p>
+
+<h3>Days 1–7 — Subtract first</h3>
+<p>Before adding anything, this week is about clearing space. Cut refined sugar, omega-6-rich vegetable oils (sunflower, corn, soybean), ultra-processed foods, and alcohol. It's a demanding week, but often the most impactful one — CRP levels typically start moving within these first two weeks, before any new "healthy" food has even entered the picture.</p>
+
+<h3>Days 8–14 — Fill the space back in</h3>
+<p>With the triggers out of the way, start building the foundation: fatty fish like salmon, sardines, or mackerel three times a week, leafy greens at every single meal, and extra-virgin olive oil as your go-to cooking fat in place of whatever you removed in week one.</p>
+
+<h3>Days 15–21 — Layer in the extras</h3>
+<p>This is where spices earn their place — not as a gimmick, but based on real trial data. Turmeric (always with black pepper, which meaningfully boosts absorption), ginger, and rosemary all carry anti-inflammatory effects on their own. They won't compensate for a poor diet, but stacked on top of weeks one and two, the effect is additive.</p>
+
+<h3>Days 22–30 — Work on what you can't see</h3>
+<p>The final stretch turns attention to the gut. A more diverse gut microbiome produces short-chain fatty acids that act directly on inflammatory pathways — which is why fermented foods (kefir, kimchi, sauerkraut) and fiber from whole grains, legumes, and vegetables round out the plan rather than opening it.</p>
+
+<h2>At a glance</h2>
+<table>
+<thead>
+<tr><th>Week</th><th>Focus</th><th>Key additions</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Remove triggers</td><td>—</td></tr>
+<tr><td>2</td><td>Rebuild the base</td><td>Fatty fish, leafy greens, olive oil</td></tr>
+<tr><td>3</td><td>Layer in spices</td><td>Turmeric + black pepper, ginger, rosemary</td></tr>
+<tr><td>4</td><td>Support the gut</td><td>Fermented foods, fiber-rich carbs</td></tr>
+</tbody>
+</table>
+
+<h2>Common questions</h2>
+<h3>Will I feel different before the 30 days are up?</h3>
+<p>Many people notice changes in energy and digestion within the first two weeks, largely tied to the removal phase. Markers like CRP can shift on a similar timeline, though the full picture usually takes the full month to show.</p>
+
+<h3>What if I can't give up alcohol completely in week one?</h3>
+<p>Reducing matters more than perfection here. Even cutting back significantly during the first week will support the goal — the plan is a framework, not an all-or-nothing test.</p>
+
+<h3>Can this diet replace medication for an inflammatory condition?</h3>
+<p>No. It's designed to work alongside medical treatment, not instead of it. If you have a diagnosed inflammatory or autoimmune condition, loop your doctor in before making major changes.</p>
+EOT,
+                'meta_title' => 'Anti-Inflammatory Diet: Complete 30-Day Plan | Healthy Habits Hub',
                 'meta_description' => 'A structured 30-day anti-inflammatory diet plan reviewed by a registered dietitian. Week-by-week guide to reducing chronic inflammation through food.',
             ],
             [
@@ -102,7 +136,7 @@ class ArticleSeeder extends Seeder
 <p>Irregular schedules are one of the most underappreciated causes of poor sleep quality. The circadian system is trained by consistency — even a 45-minute difference on weekends ("social jet lag") measurably impairs sleep architecture.</p>
 <h3>Temperature regulation</h3>
 <p>Core body temperature needs to drop 1–2°F to initiate sleep. Keeping your bedroom at 65–68°F (18–20°C) actively supports this process. A warm bath 1–2 hours before bed paradoxically helps by triggering compensatory cooling afterwards.</p>',
-                'meta_title' => 'Sleep Changes After 40: What Shifts and What to Do | HealthyLife Remedy',
+                'meta_title' => 'Sleep Changes After 40: What Shifts and What to Do | Healthy Habits Hub',
                 'meta_description' => 'A sleep medicine specialist explains how sleep architecture changes after 40 and what evidence-based strategies actually improve sleep quality.',
             ],
             [

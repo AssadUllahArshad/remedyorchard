@@ -24,7 +24,7 @@
 <div class="wrap">
   <div class="header">
     <h1>New Advertising Inquiry</h1>
-    <p>HealthyLife Remedy — {{ now()->format('M j, Y \a\t g:ia') }}</p>
+    <p>Healthy Habits Hub — {{ now()->format('M j, Y \a\t g:ia') }}</p>
   </div>
   <div class="body">
     <span class="badge">Advertising / Partnership</span>
@@ -47,7 +47,7 @@
     <a href="{{ url('/admin/messages') }}" class="btn">View in Admin Panel</a>
   </div>
   <div class="footer">
-    This email was sent automatically from the Advertise page on HealthyLife Remedy.<br>
+    This email was sent automatically from the Advertise page on Healthy Habits Hub.<br>
     Reply directly to this email to respond to {{ $submission->name }}.
   </div>
 </div>

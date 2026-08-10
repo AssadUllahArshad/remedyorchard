@@ -1,19 +1,19 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us | HealthyLife Remedy')
-@section('meta_description', 'Get in touch with the HealthyLife Remedy team for questions, story tips, corrections, or advertising and partnership inquiries.')
-@section('og_title', 'Contact HealthyLife Remedy')
+@section('title', 'Contact Us | Healthy Habits Hub')
+@section('meta_description', 'Get in touch with the Healthy Habits Hub team for questions, story tips, corrections, or advertising and partnership inquiries.')
+@section('og_title', 'Contact Healthy Habits Hub')
 @section('og_description', 'Get in touch with our team for questions, story tips, corrections, or advertising inquiries.')
 
 @section('content')
 
 <!-- HERO -->
 <section class="hero-v2"
-  style="padding:5rem 0 3.5rem; background-image:url('https://images.unsplash.com/photo-1596591606975-97ee5cef3a1e?w=1600&q=80&auto=format&fit=crop');">
+  style="padding:5rem 0 3.5rem; background-image:url('{{ asset('images/contact-hero.jpg') }}');">
   <div class="container">
     <span class="eyebrow">Get in touch</span>
-    <h1 class="hero-h1">We read every message.</h1>
-    <p class="hero-sub" style="max-width:540px;">Questions, story tips, factual corrections, or partnership inquiries — send us a message and we'll get back to you.</p>
+    <h1 class="hero-h1">Let’s Start a Conversation.</h1>
+    <p class="hero-sub" style="max-width:540px;">Have a question, a story to share, a correction to suggest or an idea to explore? Send us a message, we’d love to hear from you.</p>
   </div>
 </section>
 
@@ -47,20 +47,20 @@
               <div class="col-md-6">
                 <label class="form-label-v2" for="first_name">First Name</label>
                 <input type="text" id="first_name" name="first_name" class="form-input-v2"
-                       placeholder="Jane" required value="{{ old('first_name') }}">
+                       placeholder="Jane" required autocomplete="given-name" value="{{ old('first_name') }}">
                 @error('first_name')<span style="color:#e05555; font-size:0.82rem;">{{ $message }}</span>@enderror
               </div>
               <div class="col-md-6">
                 <label class="form-label-v2" for="last_name">Last Name</label>
                 <input type="text" id="last_name" name="last_name" class="form-input-v2"
-                       placeholder="Doe" required value="{{ old('last_name') }}">
+                       placeholder="Doe" required autocomplete="family-name" value="{{ old('last_name') }}">
                 @error('last_name')<span style="color:#e05555; font-size:0.82rem;">{{ $message }}</span>@enderror
               </div>
             </div>
 
             <label class="form-label-v2" for="email">Email Address</label>
             <input type="email" id="email" name="email" class="form-input-v2"
-                   placeholder="you@example.com" required value="{{ old('email') }}">
+                   placeholder="you@example.com" required autocomplete="email" value="{{ old('email') }}">
             @error('email')<span style="color:#e05555; font-size:0.82rem; display:block; margin-top:-0.8rem; margin-bottom:0.8rem;">{{ $message }}</span>@enderror
 
             <label class="form-label-v2" for="subject">What is this about?</label>
@@ -92,7 +92,7 @@
           <span class="ci-icon"><i class="bi bi-envelope-fill"></i></span>
           <div>
             <h4>General enquiries</h4>
-            <p>info@healthyliferemedy.com</p>
+            <p>healthyhabbitshub@gmail.com</p>
           </div>
         </div>
 
@@ -100,7 +100,7 @@
           <span class="ci-icon"><i class="bi bi-pencil-fill"></i></span>
           <div>
             <h4>Editorial &amp; corrections</h4>
-            <p>info@healthyliferemedy.com<br>
+            <p>healthyhabbitshub@gmail.com<br>
             <span style="font-size:0.82rem; color:var(--text-on-dark-faint);">Factual errors are corrected within 48 hours of being confirmed.</span></p>
           </div>
         </div>
@@ -109,7 +109,7 @@
           <span class="ci-icon"><i class="bi bi-megaphone-fill"></i></span>
           <div>
             <h4>Advertising &amp; partnerships</h4>
-            <p>contact@healthyliferemedy.com<br>
+            <p>contact@healthyhabbitshub.com<br>
             <span style="font-size:0.82rem; color:var(--text-on-dark-faint);">Editorial and commercial operations are kept strictly separate.</span></p>
           </div>
         </div>

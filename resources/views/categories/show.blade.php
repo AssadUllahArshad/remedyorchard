@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', ($category->name ?? 'Category') . ' Articles | HealthyLife Remedy')
-@section('meta_description', ($category->description ?? '') . ' Browse all HealthyLife Remedy articles in this category.')
-@section('og_title', ($category->name ?? 'Category') . ' — HealthyLife Remedy')
+@section('title', ($category->name ?? 'Category') . ' Articles | Healthy Habits Hub')
+@section('meta_description', ($category->description ?? '') . ' Browse all Healthy Habits Hub articles in this category.')
+@section('og_title', ($category->name ?? 'Category') . ' — Healthy Habits Hub')
 @section('og_description', $category->description ?? 'Browse evidence-based health articles in this category.')
 
 @push('scripts')
@@ -13,7 +13,7 @@
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ url('/') }}" },
     { "@type": "ListItem", "position": 2, "name": "Remedies", "item": "{{ url('/remedies') }}" },
-    { "@type": "ListItem", "position": 3, "name": {{ Js::from($category->name ?? 'Category') }}, "item": "{{ route('categories.show', $category->slug) }}" }
+    { "@type": "ListItem", "position": 3, "name": {!! json_encode($category->name ?? 'Category') !!}, "item": "{{ route('categories.show', $category->slug) }}" }
   ]
 }
 </script>

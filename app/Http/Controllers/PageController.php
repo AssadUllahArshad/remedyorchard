@@ -40,4 +40,9 @@ class PageController extends Controller
     {
         return view('legal.advertise');
     }
+
+    public function calorieCalculator()
+    {
+        return view('calorie-calculator');
+    }
 }

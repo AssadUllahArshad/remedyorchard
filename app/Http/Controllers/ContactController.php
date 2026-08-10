@@ -29,7 +29,7 @@ class ContactController extends Controller
             'received_at' => now(),
         ]);
 
-        Mail::to(config('mail.admin_address', env('ADMIN_EMAIL', 'info@healthyliferemedy.com')))
+        Mail::to(config('mail.admin_address', env('ADMIN_EMAIL', 'info@healthyhabitshub.com')))
             ->send(new ContactFormSubmitted($contactMessage));
 
         return back()->with('status', 'Thanks! Your message has been received. We\'ll get back to you within 48 hours.');
@@ -52,7 +52,7 @@ class ContactController extends Controller
             'received_at' => now(),
         ]);
 
-        Mail::to(config('mail.partnerships_address', env('PARTNERSHIPS_EMAIL', 'contact@healthyliferemedy.com')))
+        Mail::to(config('mail.partnerships_address', env('PARTNERSHIPS_EMAIL', 'contact@healthyhabitshub.com')))
             ->send(new AdvertiseInquirySubmitted($contactMessage));
 
         return back()->with('status', 'Advertising inquiry received. Our partnerships team will be in touch shortly.');

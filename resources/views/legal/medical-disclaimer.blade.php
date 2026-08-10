@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Medical Disclaimer | HealthyLife Remedy')
-@section('meta_description', 'Important medical disclaimer regarding the informational content published on HealthyLife Remedy.')
+@section('title', 'Medical Disclaimer | Healthy Habits Hub')
+@section('meta_description', 'Important medical disclaimer regarding the informational content published on Healthy Habits Hub.')
 @section('robots', 'noindex, follow')
 
 @section('content')
@@ -15,10 +15,10 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-9 article-body-v2">
-        <p>The information provided on HealthyLife Remedy, including articles, recommendations, and any content referenced on the site, is intended for general informational and educational purposes only. It is not intended to be, and should not be taken as, medical advice.</p>
+        <p>The information provided on Healthy Habits Hub, including articles, recommendations, and any content referenced on the site, is intended for general informational and educational purposes only. It is not intended to be, and should not be taken as, medical advice.</p>
 
         <h2>No Doctor-Patient Relationship</h2>
-        <p>Reading content on this site does not create a doctor-patient or therapist-client relationship between you and any contributor, author, or HealthyLife Remedy as an organization.</p>
+        <p>Reading content on this site does not create a doctor-patient or therapist-client relationship between you and any contributor, author, or Healthy Habits Hub as an organization.</p>
 
         <h2>Always Consult a Professional</h2>
         <p>Always seek the advice of a physician or other qualified healthcare provider with any questions you may have regarding a medical condition, before starting any new diet, supplement, exercise program, or treatment, and before stopping or changing any prescribed medication.</p>

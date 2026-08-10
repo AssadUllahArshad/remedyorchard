@@ -1,14 +1,14 @@
 <?php
 
 return [
-    'site_name'           => env('APP_NAME', 'HealthyLife Remedy'),
-    'site_url'            => env('APP_URL', 'https://healthyliferemedy.com'),
+    'site_name'           => env('APP_NAME', 'Healthy Habits Hub'),
+    'site_url'            => env('APP_URL', 'https://healthyhabitshub.com'),
     'tagline'             => 'Evidence-Based Natural Health & Wellness',
-    'description'         => 'Your trusted guide to natural health, evidence-based nutrition, and holistic wellness. Doctor-reviewed articles on home remedies, nutrition, mental health, fitness, sleep, and heart health.',
-    'contact_email'       => env('ADMIN_EMAIL', 'info@healthyliferemedy.com'),
+    'description'         => 'Clinician-reviewed natural remedies, nutrition guides and wellness tips backed by science. Trusted, evidence-based health advice you can rely on.',
+    'contact_email'       => env('ADMIN_EMAIL', 'info@healthyhabitshub.com'),
 
     // Social handles (no @ prefix for schema, with @ for meta tags)
-    'twitter_handle'      => env('TWITTER_HANDLE', '@healthyliferemedy'),
+    'twitter_handle'      => env('TWITTER_HANDLE', '@healthyhabitshub'),
     'facebook_url'        => env('FACEBOOK_URL', ''),
     'instagram_url'       => env('INSTAGRAM_URL', ''),
 

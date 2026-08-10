@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Privacy Policy | HealthyLife Remedy')
-@section('meta_description', 'Read the HealthyLife Remedy privacy policy to learn how we collect, use, and protect your personal information.')
+@section('title', 'Privacy Policy | Healthy Habits Hub')
+@section('meta_description', 'Read the Healthy Habits Hub privacy policy to learn how we collect, use, and protect your personal information.')
 @section('robots', 'noindex, follow')
 
 @section('content')
@@ -15,7 +15,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-9 article-body-v2">
-        <p>HealthyLife Remedy ("we," "us," or "our") respects your privacy. This Privacy Policy explains what information we collect when you visit healthyliferemedy.com, how we use it, and the choices available to you.</p>
+        <p>Healthy Habits Hub ("we," "us," or "our") respects your privacy. This Privacy Policy explains what information we collect when you visit healthyhabitshub.com, how we use it, and the choices available to you.</p>
 
         <h2>Information We Collect</h2>
         <h3>Information You Provide</h3>
@@ -48,7 +48,7 @@
         <p>We may update this Privacy Policy from time to time. Material changes will be reflected by an updated "Last updated" date at the top of this page.</p>
 
         <h2>Contact Us</h2>
-        <p>If you have questions about this Privacy Policy, please reach out via our <a href="{{ route('contact') }}">Contact page</a> or email info@healthyliferemedy.com.</p>
+        <p>If you have questions about this Privacy Policy, please reach out via our <a href="{{ route('contact') }}">Contact page</a> or email info@healthyhabitshub.com.</p>
       </div>
     </div>
   </div>

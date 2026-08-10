@@ -11,7 +11,7 @@ class AuthorSeeder extends Seeder
     {
         $authors = [
             [
-                'name' => 'Dr. Sarah Mitchell',
+                'name' => 'Dr. Ibrahim Mitchell',
                 'role' => 'Cardiologist & Medical Advisor',
                 'initials' => 'SM',
                 'avatar_url' => null,

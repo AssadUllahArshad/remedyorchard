@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', ($article->meta_title ?? $article->title) . ' | HealthyLife Remedy')
+@section('title', ($article->meta_title ?? $article->title) . ' | Healthy Habits Hub')
 @section('meta_description', $article->meta_description ?? $article->excerpt ?? '')
 @section('og_type', 'article')
 @section('og_title', $article->meta_title ?? $article->title)
@@ -10,6 +10,7 @@
 @if($article->thumbnail_url)
 @section('preload_hints')
 <link rel="preload" as="image" href="{{ $article->thumbnail_url }}">
+<meta name="robots" content="index, follow">
 @endsection
 @endif
 
@@ -21,20 +22,20 @@
     {
       "@type": "Article",
       "@id": "{{ route('articles.show', $article->slug) }}#article",
-      "headline": {{ Js::from($article->title) }},
-      "description": {{ Js::from($article->excerpt ?? '') }},
+      "headline": {!! json_encode($article->title) !!},
+      "description": {!! json_encode($article->excerpt ?? '') !!},
       "datePublished": "{{ optional($article->published_at)->toIso8601String() }}",
       "dateModified": "{{ $article->updated_at->toIso8601String() }}",
       "author": {
         "@type": "Person",
-        "name": {{ Js::from($article->author->name ?? 'HealthyLife Remedy') }}
+        "name": {!! json_encode($article->author->name ?? 'Healthy Habits Hub') !!}
       },
       "publisher": {
         "@id": "{{ config('seo.site_url') }}/#organization"
       },
       "image": {
         "@type": "ImageObject",
-        "url": {{ Js::from($article->thumbnail_url ?? config('seo.og_image')) }}
+        "url": {!! json_encode($article->thumbnail_url ?? config('seo.og_image')) !!}
       },
       "url": "{{ route('articles.show', $article->slug) }}",
       "mainEntityOfPage": "{{ route('articles.show', $article->slug) }}"
@@ -42,7 +43,7 @@
       ,"timeRequired": "{{ $article->read_time }}"
       @endif
       @if($article->category)
-      ,"articleSection": {{ Js::from($article->category->name) }}
+      ,"articleSection": {!! json_encode($article->category->name) !!}
       @endif
     },
     {
@@ -51,10 +52,10 @@
         { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ url('/') }}" },
         { "@type": "ListItem", "position": 2, "name": "Remedies", "item": "{{ url('/remedies') }}" },
         @if($article->category)
-        { "@type": "ListItem", "position": 3, "name": {{ Js::from($article->category->name) }}, "item": "{{ route('categories.show', $article->category->slug) }}" },
-        { "@type": "ListItem", "position": 4, "name": {{ Js::from($article->title) }}, "item": "{{ route('articles.show', $article->slug) }}" }
+        { "@type": "ListItem", "position": 3, "name": {!! json_encode($article->category->name) !!}, "item": "{{ route('categories.show', $article->category->slug) }}" },
+        { "@type": "ListItem", "position": 4, "name": {!! json_encode($article->title) !!}, "item": "{{ route('articles.show', $article->slug) }}" }
         @else
-        { "@type": "ListItem", "position": 3, "name": {{ Js::from($article->title) }}, "item": "{{ route('articles.show', $article->slug) }}" }
+        { "@type": "ListItem", "position": 3, "name": {!! json_encode($article->title) !!}, "item": "{{ route('articles.show', $article->slug) }}" }
         @endif
       ]
     }
@@ -76,9 +77,10 @@
 
 @php
     $imageAssets = [
-        'nutrition'    => 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800&q=80&auto=format&fit=crop',
-        'herbs'        => 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80&auto=format&fit=crop',
-        'fitness'      => 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&q=80&auto=format&fit=crop',
+        'nutrition'    => 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80&auto=format&fit=crop',
+        'meal_planning' => 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&q=80&auto=format&fit=crop',
+        'herbs'        => 'https://images.unsplash.com/photo-1508595165502-3e2652e5a405?w=800&q=80&auto=format&fit=crop',
+        'fitness'      => 'https://images.unsplash.com/photo-1728209229705-b54381185d28?w=800&q=80&auto=format&fit=crop',
         'sleep'        => 'https://images.unsplash.com/photo-1631558432963-2c7eb7fdc5e2?w=800&q=80&auto=format&fit=crop',
         'heart'        => 'https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=800&q=80&auto=format&fit=crop',
         'mental-health'=> 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&q=80&auto=format&fit=crop',
@@ -207,7 +209,7 @@
         <form method="POST" action="{{ route('newsletter.subscribe') }}">
           @csrf
           <input type="hidden" name="source" value="article-sidebar">
-          <input type="email" name="email" placeholder="your@email.com" required>
+          <input type="email" name="email" placeholder="your@email.com" required autocomplete="email">
           <button type="submit">Subscribe Free</button>
         </form>
       </div>
@@ -220,7 +222,7 @@
         <h3>Our editorial standard</h3>
         <div class="trending-item-v2" style="border:none; padding-top:0;">
           <div>
-            <p class="widget-body-text">Every article on HealthyLife Remedy is written by a credentialed author and reviewed by an appropriate clinician before publication. We cite peer-reviewed research — not other health blogs.</p>
+            <p class="widget-body-text">Every article on Healthy Habits Hub is written by a credentialed author and reviewed by an appropriate clinician before publication. We cite peer-reviewed research — not other health blogs.</p>
             <a href="{{ route('about') }}" class="widget-link-cta">
               Meet the review team <i class="bi bi-arrow-right ms-1"></i>
             </a>
