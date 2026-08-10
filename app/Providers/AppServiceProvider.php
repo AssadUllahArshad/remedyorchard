@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Category;
 use App\Models\ContactMessage;
 use App\Models\Subscriber;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -25,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrapFive();
+
         View::composer(['partials.footer', 'partials.header'], function ($view) {
             $view->with('footerCategories', Category::orderBy('name')->get()->map(fn ($c) => ['name' => $c->name, 'slug' => $c->slug])->toArray());
         });

@@ -2541,10 +2541,43 @@ p { margin-bottom: 1rem; }
   color: var(--emerald-brand);
 }
 
-/* ── 53. Pagination adapts in light mode ── */
+/* ── 53. Pagination ── */
+.pagination { gap: 0.4rem; }
+.pagination .page-link {
+  border: 1px solid var(--emerald-line);
+  border-radius: var(--radius-sm);
+  background: var(--emerald-pill);
+  color: var(--text-on-dark-dim);
+  font-weight: 600;
+  padding: 0.5rem 0.9rem;
+  transition: var(--transition);
+}
+.pagination .page-link:hover {
+  color: var(--text-on-dark);
+  border-color: var(--emerald-bright);
+  background: var(--emerald-glow);
+  z-index: 1;
+}
+.pagination .page-link:focus {
+  box-shadow: 0 0 0 0.2rem var(--emerald-glow);
+}
+.pagination .page-item.active .page-link {
+  background: var(--emerald-brand);
+  border-color: var(--emerald-brand);
+  color: #fff;
+}
+.pagination .page-item.disabled .page-link {
+  background: transparent;
+  border-color: var(--emerald-line);
+  color: var(--text-on-dark-dim);
+  opacity: 0.5;
+}
+
+/* ── 53a. Pagination adapts in light mode ── */
 [data-theme="light"] .pagination .page-link       { background: #fff; border-color: #D2E3D8; color: var(--emerald-brand); }
-[data-theme="light"] .pagination .page-link:hover { background: #EEF5EE; }
+[data-theme="light"] .pagination .page-link:hover { background: #EEF5EE; border-color: var(--emerald-brand); color: var(--emerald-brand); }
 [data-theme="light"] .pagination .page-item.active .page-link { background: var(--emerald-brand); border-color: var(--emerald-brand); color: #fff; }
+[data-theme="light"] .pagination .page-item.disabled .page-link { background: #fff; border-color: #D2E3D8; color: var(--text-on-light-dim); opacity: 0.5; }
 
 /* ── 54. Site header logo text color in light mode (see .logo-text-main/-sub near .brand-link) ── */
 

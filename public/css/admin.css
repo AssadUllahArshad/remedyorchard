@@ -436,6 +436,29 @@ table.admin-table tbody tr:hover { background: var(--off-white); }
 }
 .admin-pagination .page-btn.active { background: var(--emerald-brand); color: #fff; border-color: var(--emerald-brand); }
 
+.admin-pagination .pagination { margin: 0; gap: 0.4rem; }
+.admin-pagination .page-link {
+  min-width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid #E2E8E3;
+  border-radius: 8px;
+  padding: 0 0.5rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-on-light-dim);
+  background: #fff;
+  transition: var(--transition);
+}
+.admin-pagination .page-link:hover {
+  border-color: var(--emerald-brand);
+  color: var(--emerald-brand);
+  background: rgba(30,58,95,0.06);
+  z-index: 1;
+}
+.admin-pagination .page-link:focus { box-shadow: 0 0 0 0.2rem rgba(30,58,95,0.15); }
+.admin-pagination .page-item.active .page-link { background: var(--emerald-brand); color: #fff; border-color: var(--emerald-brand); }
+.admin-pagination .page-item.disabled .page-link { color: var(--text-on-light-dim); opacity: 0.5; background: #fff; }
+
 /* =========================================================
    Login screen
    ========================================================= */
