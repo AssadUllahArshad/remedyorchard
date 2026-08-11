@@ -8,10 +8,10 @@
           <span class="eyebrow" style="color:rgba(200,225,240,0.75);">Weekly newsletter</span>
           <h2 class="footer-billboard-heading">One research-backed health insight, delivered every Tuesday.</h2>
         </div>
-        <form method="POST" action="{{ route('newsletter.subscribe') }}" class="footer-billboard-form">
+        <form method="POST" action="{{ route('newsletter.subscribe') }}" class="footer-billboard-form d-flex flex-column flex-sm-row gap-2">
           @csrf
           <input type="hidden" name="source" value="footer">
-          <input type="email" name="email" class="footer-input-v2" placeholder="your@email.com" required autocomplete="email">
+          <input type="email" name="email" class="footer-input-v2 flex-grow-1" placeholder="your@email.com" required autocomplete="email">
           <button type="submit" class="btn-pill-primary" style="border:none;">
             <i class="bi bi-envelope me-1"></i> Subscribe Free
           </button>

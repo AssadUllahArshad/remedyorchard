@@ -1615,9 +1615,12 @@ p { margin-bottom: 1rem; }
   margin: 0.4rem 0 0;
   line-height: 1.2;
 }
-.footer-billboard-form { display: flex; gap: 0.75rem; flex-shrink: 0; }
+/* Row-vs-stack direction and gap are handled by the Bootstrap utility
+   classes on the <form> itself (d-flex flex-column flex-sm-row gap-2) —
+   this is just the flex-shrink guard against the sibling heading, and
+   the brand cosmetics that Bootstrap utilities don't provide. */
+.footer-billboard-form { flex-shrink: 0; }
 .footer-billboard-form .footer-input-v2 {
-  width: 260px;
   background: rgba(255,255,255,0.12);
   border-color: rgba(255,255,255,0.25);
 }
@@ -1629,7 +1632,6 @@ p { margin-bottom: 1rem; }
 @media (max-width: 767px) {
   .footer-billboard-inner { flex-direction: column; align-items: flex-start; }
   .footer-billboard-form { width: 100%; }
-  .footer-billboard-form .footer-input-v2 { flex: 1; width: auto; }
 }
 
 /* Slim horizontal link index */
