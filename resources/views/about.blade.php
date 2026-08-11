@@ -130,7 +130,7 @@
       </p>
     </div>
 
-    <div class="round-carousel" data-round-carousel style="--rc-width: 300px; --rc-height: 440px;">
+    <div class="round-carousel round-carousel--team" data-round-carousel>
       <div class="round-carousel-tilt" data-round-carousel-tilt>
         <div class="round-carousel-ring" data-round-carousel-ring>
           @foreach($contributors as $person)

@@ -125,7 +125,7 @@
     <div class="col-lg-8">
       <span class="tag-chip mb-3">{{ $article->category->name }}</span>
 
-      <h1 class="mb-3" style="font-size:2.2rem; line-height:1.15;">{{ $article->title }}</h1>
+      <h1 class="mb-3" style="font-size:clamp(1.6rem, 6vw, 2.2rem); line-height:1.15;">{{ $article->title }}</h1>
 
       <div class="author-byline-v2">
         <span class="author-avatar-v2">{{ $article->author->initials }}</span>

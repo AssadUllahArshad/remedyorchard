@@ -520,6 +520,20 @@ p { margin-bottom: 1rem; }
   .hero-stat-strip { gap: 1.5rem; }
 }
 
+/* Hero CTA row: long dynamic button text (e.g. "Read: {article title}")
+   must wrap instead of forcing horizontal scroll on narrow phones — the
+   shared .btn-pill-primary/.btn-pill-outline nowrap rule is fine for the
+   short static labels used everywhere else. */
+@media (max-width: 575px) {
+  .hero-cta-row { width: 100%; }
+  .hero-cta-row .btn-pill-primary,
+  .hero-cta-row .btn-pill-outline {
+    white-space: normal;
+    text-align: left;
+    width: 100%;
+  }
+}
+
 /* ── Image placeholders (fallback gradient fills) ───────────
 .img-ph { background-repeat: no-repeat; background-position: center; background-size: cover; }
 .img-ph-1 { background: linear-gradient(145deg,#16382A,#28623A 60%,#1E4A2E); }
@@ -1083,6 +1097,9 @@ p { margin-bottom: 1rem; }
   border: 1px solid var(--emerald-line);
   box-shadow: var(--shadow-card);
 }
+@media (max-width: 767px) {
+  .article-hero-v2 { height: 220px; }
+}
 
 .article-body-v2 { font-size: 1.05rem; line-height: 1.82; }
 .article-body-v2 h2 { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--text-on-dark); }
@@ -1152,14 +1169,20 @@ p { margin-bottom: 1rem; }
   font-size: 0.9rem;
 }
 
-/* Tables */
+/* Tables — WYSIWYG-authored content can include wide tables; make them
+   scroll horizontally on narrow screens instead of clipping/overflowing
+   the page. Setting display:block on the table doesn't affect its
+   internal row/cell layout (browsers still generate the anonymous table
+   structure for the table-row-group/table-cell children). */
 .article-body-v2 table {
+  display: block;
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border-collapse: collapse;
   margin: 2rem 0;
   font-size: 0.95rem;
   border-radius: 8px;
-  overflow: hidden;
 }
 .article-body-v2 th {
   background: var(--emerald-deep);
@@ -1342,7 +1365,7 @@ p { margin-bottom: 1rem; }
 [data-theme="light"] .calc-unit-toggle { background: #F0EDE8; border-color: #C8D5C8; }
 [data-theme="light"] .calc-unit-btn { color: var(--text-on-light-dim); }
 
-.calc-pill-group { display: flex; gap: 0.6rem; }
+.calc-pill-group { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .calc-pill {
   flex: 1;
   background: var(--emerald-deep);
@@ -1360,6 +1383,10 @@ p { margin-bottom: 1rem; }
 .calc-pill:hover:not(.active) { border-color: var(--emerald-bright); color: var(--text-on-dark); }
 [data-theme="light"] .calc-pill { background: #fff; border-color: #C8D5C8; color: var(--text-on-light-dim); }
 [data-theme="light"] .calc-pill.active { background: var(--emerald-brand); border-color: var(--emerald-brand); color: #fff; }
+
+@media (max-width: 480px) {
+  .calc-pill { flex: 1 1 calc(50% - 0.3rem); font-size: 0.82rem; padding: 0.6rem 0.5rem; }
+}
 
 .calc-results { margin-top: 2.5rem; }
 .calc-results-divider { border-top: 1px solid var(--emerald-line); margin-bottom: 2rem; }
@@ -1968,8 +1995,18 @@ p { margin-bottom: 1rem; }
   filter: brightness(0.4);
 }
 
+/* Team carousel (about page) uses taller cards to fit longer bio text.
+   Narrower cards force more text lines, so height grows as width shrinks
+   (the opposite of the shorter testimonial-quote cards below). */
+.round-carousel--team { --rc-width: 300px; --rc-height: 440px; }
+
 @media (max-width: 767px) {
   .round-carousel { --rc-width: 260px; --rc-height: 340px; }
+  .round-carousel--team { --rc-width: 260px; --rc-height: 480px; }
+}
+@media (max-width: 400px) {
+  .round-carousel { --rc-width: 220px; --rc-height: 320px; }
+  .round-carousel--team { --rc-width: 220px; --rc-height: 520px; }
 }
 
 /* ── Section-specific heading colors in light mode ────────── */
@@ -2174,6 +2211,7 @@ p { margin-bottom: 1rem; }
 .contact-info-block {
   display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: flex-start;
 }
+.contact-info-block > div { min-width: 0; }
 .contact-info-block .ci-icon {
   width: 46px; height: 46px; border-radius: 50%;
   background: var(--emerald-glow); color: var(--emerald-bright);
@@ -2186,7 +2224,7 @@ p { margin-bottom: 1rem; }
   border-color: rgba(40,98,58,0.15);
 }
 .contact-info-block h4 { font-size: 0.97rem; color: var(--text-on-dark); margin-bottom: 0.25rem; }
-.contact-info-block p  { font-size: 0.9rem; color: var(--text-on-dark-dim); margin-bottom: 0; }
+.contact-info-block p  { font-size: 0.9rem; color: var(--text-on-dark-dim); margin-bottom: 0; overflow-wrap: break-word; }
 [data-theme="light"] .contact-info-block h4 { color: var(--text-on-light); }
 [data-theme="light"] .contact-info-block p  { color: var(--text-on-light-dim); }
 

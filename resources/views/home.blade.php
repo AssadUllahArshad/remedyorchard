@@ -90,7 +90,7 @@
       <span class="eyebrow">Evidence-Based Health & Wellness Since 2020</span>
       <h1>Natural Health Remedies<br>you can actually use.</h1>
       <p class="hero-sub">HealthyHabbits hub delivers clinician-reviewed guides on natural remedies, nutrition, fitness, sleep and heart health every article grounded in peer-reviewed research, not guesswork or content mills.</p>
-      <div class="d-flex flex-wrap gap-3 align-items-center">
+      <div class="d-flex flex-wrap gap-3 align-items-center hero-cta-row">
         @isset($featuredArticle)
         <a href="{{ route('articles.show', $featuredArticle->slug) }}" class="btn-pill-primary btn-pill-primary--lg">
           <i class="bi bi-star-fill me-1"></i> Read: {{ \Illuminate\Support\Str::limit($featuredArticle->title, 50) }}
@@ -353,7 +353,7 @@
         ['quote'=>'I was skeptical about herbal remedies until the adaptogens article laid out exactly which ones have real clinical trials behind them and which ones are just folklore. Appreciated the honesty.', 'name'=>'Nadia S.', 'detail'=>'Reader since 2024'],
       ];
     @endphp
-    <div class="round-carousel" data-round-carousel style="--rc-width: 340px; --rc-height: 380px;">
+    <div class="round-carousel" data-round-carousel>
       <div class="round-carousel-tilt" data-round-carousel-tilt>
         <div class="round-carousel-ring" data-round-carousel-ring>
           @foreach($testimonials as $t)
