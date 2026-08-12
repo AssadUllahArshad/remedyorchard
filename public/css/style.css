@@ -80,6 +80,14 @@ html { scroll-behavior: smooth; }
 
 html {
   transition: background-color 0.35s var(--ease), color 0.35s var(--ease);
+  /* Belt-and-suspenders with body's overflow-x below: fixed-position
+     elements (.site-header) size their `width: 100%` against html's box,
+     not body's, so clipping only on body still let the header inflate
+     past the viewport whenever a wide-gutter row (see .row.g-5 fix below)
+     pushed the page's scrollable width out. Also needed because
+     overflow-x:hidden on body alone is unreliable for suppressing
+     horizontal rubber-band scroll on iOS Safari. */
+  overflow-x: hidden;
 }
 
 body {
@@ -91,6 +99,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   transition: background-color 0.35s var(--ease), color 0.35s var(--ease);
   padding-top: var(--header-h, 72px);
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5 {
@@ -146,6 +155,14 @@ p { margin-bottom: 1rem; }
 
 @media (max-width: 767px) {
   .py-section { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+  /* .row.g-5's 3rem gutter is a -24px row margin, wider than .container's
+     12px mobile padding, so it overflowed the viewport by 12px each side
+     (home, about, contact, article, advertise pages). Capping the
+     horizontal gutter to the default 1.5rem here matches the container's
+     padding exactly (-12px margin), removing the overflow at its source
+     instead of just clipping it. Vertical gutter is untouched so stacked
+     columns keep their breathing room. */
+  .row.g-5 { --bs-gutter-x: 1.5rem; }
 }
 
 /* ── Navbar ───────────────────────────────────────────────── */
@@ -327,10 +344,14 @@ p { margin-bottom: 1rem; }
   border-color: #C8D5C8;
   color: #48645A;
 }
-.theme-toggle .icon-sun  { display: none; }
-.theme-toggle .icon-moon { display: block; }
-[data-theme="light"] .theme-toggle .icon-sun  { display: block; }
-[data-theme="light"] .theme-toggle .icon-moon { display: none; }
+.theme-toggle .icon-sun,
+.theme-toggle-mobile .icon-sun  { display: none; }
+.theme-toggle .icon-moon,
+.theme-toggle-mobile .icon-moon { display: block; }
+[data-theme="light"] .theme-toggle .icon-sun,
+[data-theme="light"] .theme-toggle-mobile .icon-sun  { display: block; }
+[data-theme="light"] .theme-toggle .icon-moon,
+[data-theme="light"] .theme-toggle-mobile .icon-moon { display: none; }
 
 /* Mobile nav */
 .navbar-toggler-custom {
@@ -381,8 +402,21 @@ p { margin-bottom: 1rem; }
   color: #fff;
   background: var(--emerald-brand);
 }
+/* The "Explore Remedies" CTA keeps the same box shape/size as its sibling
+   menu links above (padding/radius/font from .mobile-menu a) — only the
+   background is pinned to the brand colour so it reads as the primary
+   action in both themes. .btn-pill-primary's own background lost this
+   fight to .mobile-menu a's extra type selector before (that's what made
+   it invisible in light mode); this rule wins deliberately and specifically
+   for just the background, without adopting .btn-pill-primary's full pill
+   shape/padding, which would change the CTA's look from its shipped design. */
+.mobile-menu a.btn-pill-primary {
+  background: var(--emerald-brand);
+}
 .mobile-menu .theme-toggle-mobile {
   width: 100%;
+  display: flex;
+  align-items: center;
   justify-content: flex-start;
   gap: 0.7rem;
   border-radius: var(--radius-sm);
@@ -2003,11 +2037,15 @@ p { margin-bottom: 1rem; }
 .round-carousel--team { --rc-width: 300px; --rc-height: 440px; }
 
 @media (max-width: 767px) {
-  .round-carousel { --rc-width: 260px; --rc-height: 340px; }
+  /* --rc-height was shrunk too far here originally — several testimonial
+     quotes are long enough that at a narrower card width they need MORE
+     vertical room, not less, and the extra text was getting clipped by
+     .round-carousel-face's overflow:hidden. */
+  .round-carousel { --rc-width: 280px; --rc-height: 440px; }
   .round-carousel--team { --rc-width: 260px; --rc-height: 480px; }
 }
 @media (max-width: 400px) {
-  .round-carousel { --rc-width: 220px; --rc-height: 320px; }
+  .round-carousel { --rc-width: 240px; --rc-height: 480px; }
   .round-carousel--team { --rc-width: 220px; --rc-height: 520px; }
 }
 
@@ -2296,6 +2334,10 @@ p { margin-bottom: 1rem; }
 [data-theme="light"] .mobile-menu a         { background: #fff; color: var(--text-on-light-dim); border: 1px solid #E0EBE2; }
 [data-theme="light"] .mobile-menu a:hover,
 [data-theme="light"] .mobile-menu a.active  { background: var(--emerald-brand); color: #fff; border-color: var(--emerald-brand); }
+/* Same box shape as sibling links (padding/radius from .mobile-menu a
+   above) — pin the CTA's background/border to brand colour so it doesn't
+   go white-on-white like the plain nav links do in light mode. */
+[data-theme="light"] .mobile-menu a.btn-pill-primary { background: var(--emerald-brand); border-color: var(--emerald-brand); }
 [data-theme="light"] .mobile-menu .theme-toggle-mobile {
   background: #fff; border-color: #D2E3D8; color: var(--text-on-light-dim);
 }

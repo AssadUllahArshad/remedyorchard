@@ -46,6 +46,7 @@
       <a href="{{ route('remedies.index') }}" class="{{ request()->routeIs('remedies.*') ? 'active' : '' }}">Remedies</a>
       <a href="{{ route('about') }}"          class="{{ request()->routeIs('about') ? 'active' : '' }}">About</a>
       <a href="{{ route('contact') }}"        class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
+      <a href="{{ route('calorie-calculator') }}" class="{{ request()->routeIs('calorie-calculator') ? 'active' : '' }}">Calories calculator</a>
       <a href="{{ route('remedies.index') }}" class="btn-pill-primary text-center justify-content-center" style="margin-top:0.3rem;">Explore Remedies</a>
       <button class="theme-toggle-mobile" data-toggle-theme>
         <i class="bi bi-sun-fill icon-sun"></i>
