@@ -1,6 +1,12 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # /public/... redirect handling now lives in
+    # app/Http/Middleware/RedirectPublicPrefix.php instead — that runs
+    # inside Laravel regardless of what this host's Apache config actually
+    # honours from .htaccess, which the version of this rule that used to
+    # live here could not guarantee.
+
     # Redirect all requests to the public directory
     RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
