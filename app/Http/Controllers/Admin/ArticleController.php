@@ -14,7 +14,7 @@ class ArticleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Article::query()->with(['category', 'author']);
+        $query = Article::query()->with(['category', 'categories', 'author']);
 
         if ($request->filled('search')) {
             $query->where('title', 'like', '%' . $request->search . '%');
@@ -25,7 +25,7 @@ class ArticleController extends Controller
         }
 
         if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
+            $query->whereHas('categories', fn ($q) => $q->where('categories.id', $request->category_id));
         }
 
         $articles = $query->latest('published_at')->paginate(10)->appends($request->query());
@@ -55,7 +55,8 @@ class ArticleController extends Controller
             'slug' => ['nullable', 'string', 'max:255', 'unique:articles,slug'],
             'excerpt' => ['nullable', 'string'],
             'body' => ['required', 'string'],
-            'category_id' => ['required', 'exists:categories,id'],
+            'category_ids' => ['required', 'array', 'min:1'],
+            'category_ids.*' => ['integer', 'exists:categories,id'],
             'author_id' => ['required', 'exists:authors,id'],
             'status' => ['required', 'in:draft,published,scheduled'],
             'published_at' => ['nullable', 'date'],
@@ -66,6 +67,9 @@ class ArticleController extends Controller
             'featured' => ['nullable', 'boolean'],
         ]);
 
+        $categoryIds = array_values(array_unique($data['category_ids']));
+        unset($data['category_ids']);
+        $data['category_id'] = $categoryIds[0];
         $data['slug'] = $data['slug'] ?? Str::slug($data['title']);
         $data['body'] = Purifier::clean($data['body']);
         $data['featured'] = $request->boolean('featured');
@@ -91,7 +95,8 @@ class ArticleController extends Controller
             $data['thumbnail_url'] = asset('uploads/article-thumbnails/' . $filename);
         }
 
-        Article::create($data);
+        $article = Article::create($data);
+        $article->categories()->sync($categoryIds);
 
         return redirect()->route('admin.articles.index')->with('status', 'Article created.');
     }
@@ -111,7 +116,8 @@ class ArticleController extends Controller
             'slug' => ['nullable', 'string', 'max:255', 'unique:articles,slug,' . $article->id],
             'excerpt' => ['nullable', 'string'],
             'body' => ['required', 'string'],
-            'category_id' => ['required', 'exists:categories,id'],
+            'category_ids' => ['required', 'array', 'min:1'],
+            'category_ids.*' => ['integer', 'exists:categories,id'],
             'author_id' => ['required', 'exists:authors,id'],
             'status' => ['required', 'in:draft,published,scheduled'],
             'published_at' => ['nullable', 'date'],
@@ -122,6 +128,9 @@ class ArticleController extends Controller
             'featured' => ['nullable', 'boolean'],
         ]);
 
+        $categoryIds = array_values(array_unique($data['category_ids']));
+        unset($data['category_ids']);
+        $data['category_id'] = $categoryIds[0];
         $data['slug'] = $data['slug'] ?? Str::slug($data['title']);
         $data['body'] = Purifier::clean($data['body']);
         $data['featured'] = $request->boolean('featured');
@@ -147,6 +156,7 @@ class ArticleController extends Controller
         }
 
         $article->update($data);
+        $article->categories()->sync($categoryIds);
 
         return redirect()->route('admin.articles.index')->with('status', 'Article updated.');
     }

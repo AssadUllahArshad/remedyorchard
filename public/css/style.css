@@ -258,7 +258,7 @@ p { margin-bottom: 1rem; }
   transition: color 0.2s var(--ease);
 }
 .pill-nav a:hover { color: #fff; }
-.pill-nav a.active { color: #fff; }
+.pill-nav a.active { color: #fff !important; }
 .pill-nav:hover a.active:not(:hover) { color: var(--text-on-dark-dim); }
 
 /* Buttons */
@@ -399,7 +399,7 @@ p { margin-bottom: 1rem; }
   transition: var(--transition);
 }
 .mobile-menu a:hover, .mobile-menu a.active {
-  color: #fff;
+  color: #fff !important;
   background: var(--emerald-brand);
 }
 /* The "Explore Remedies" CTA keeps the same box shape/size as its sibling
@@ -859,11 +859,11 @@ p { margin-bottom: 1rem; }
   white-space: nowrap;
 }
 .pill-filter:hover { color: var(--text-on-dark); border-color: var(--emerald-bright); background: var(--emerald-glow); }
-.pill-filter.active { background: var(--emerald-brand); border-color: var(--emerald-brand); color: #fff; }
+.pill-filter.active { background: var(--emerald-brand); border-color: var(--emerald-brand); color: #fff !important; }
 
 [data-theme="light"] .pill-filter { background: #fff; border-color: #D2E3D8; color: var(--text-on-light-dim); }
 [data-theme="light"] .pill-filter:hover { background: var(--emerald-glow); color: var(--emerald-brand); border-color: var(--emerald-brand); }
-[data-theme="light"] .pill-filter.active { background: var(--emerald-brand); color: #fff; border-color: var(--emerald-brand); }
+[data-theme="light"] .pill-filter.active { background: var(--emerald-brand); color: #fff !important; border-color: var(--emerald-brand); }
 
 /* ── Category tiles ───────────────────────────────────────── */
 .category-tile {
@@ -1395,7 +1395,7 @@ p { margin-bottom: 1rem; }
   cursor: pointer;
   transition: var(--transition);
 }
-.calc-unit-btn.active { background: var(--emerald-brand); color: #fff; }
+.calc-unit-btn.active { background: var(--emerald-brand); color: #fff !important; }
 [data-theme="light"] .calc-unit-toggle { background: #F0EDE8; border-color: #C8D5C8; }
 [data-theme="light"] .calc-unit-btn { color: var(--text-on-light-dim); }
 
@@ -1413,10 +1413,10 @@ p { margin-bottom: 1rem; }
   text-align: center;
   transition: var(--transition);
 }
-.calc-pill.active { background: var(--emerald-brand); border-color: var(--emerald-brand); color: #fff; }
+.calc-pill.active { background: var(--emerald-brand); border-color: var(--emerald-brand); color: #fff !important; }
 .calc-pill:hover:not(.active) { border-color: var(--emerald-bright); color: var(--text-on-dark); }
 [data-theme="light"] .calc-pill { background: #fff; border-color: #C8D5C8; color: var(--text-on-light-dim); }
-[data-theme="light"] .calc-pill.active { background: var(--emerald-brand); border-color: var(--emerald-brand); color: #fff; }
+[data-theme="light"] .calc-pill.active { background: var(--emerald-brand); border-color: var(--emerald-brand); color: #fff !important; }
 
 @media (max-width: 480px) {
   .calc-pill { flex: 1 1 calc(50% - 0.3rem); font-size: 0.82rem; padding: 0.6rem 0.5rem; }
@@ -2403,7 +2403,7 @@ p { margin-bottom: 1rem; }
 /* ── 18. Article heading inside main (no hardcoded color needed) ── */
 [data-theme="light"] main h1 { color: var(--text-on-light); }
 [data-theme="light"] main h2 { color: var(--text-on-light); }
-[data-theme="light"] main h3 { color: var(--text-on-light); }
+[data-theme="light"] main h3 { color: #FFF; }
 
 /* ── 19. Separator lines adapt in light mode ── */
 [data-theme="light"] main [style*="border-top"] { border-top-color: #D2E3D8 !important; }
@@ -2432,7 +2432,7 @@ p { margin-bottom: 1rem; }
 
 /* ── 25. Pill filter on section-dark light mode ── */
 [data-theme="light"] .section-dark .pill-filter { background: #fff; border-color: #C8D5C8; color: var(--text-on-light-dim); }
-[data-theme="light"] .section-dark .pill-filter.active { background: var(--emerald-brand); border-color: var(--emerald-brand); color: #fff; }
+[data-theme="light"] .section-dark .pill-filter.active { background: var(--emerald-brand); border-color: var(--emerald-brand); color: #fff !important; }
 [data-theme="light"] .section-dark .pill-filter:hover { background: rgba(40,98,58,0.06); border-color: var(--emerald-brand); color: var(--emerald-brand); }
 
 /* ── 26. Btn-pill-outline on light backgrounds ── */
@@ -2454,7 +2454,7 @@ p { margin-bottom: 1rem; }
 /* ── 29. Site header: nav link and CTA text in light mode ── */
 [data-theme="light"] .pill-nav a { color: var(--text-on-light-dim); }
 [data-theme="light"] .pill-nav a:hover { color: #fff; }
-[data-theme="light"] .pill-nav a.active { color: #fff; }
+[data-theme="light"] .pill-nav a.active { color: #fff !important; }
 [data-theme="light"] .pill-nav:hover a.active:not(:hover) { color: var(--text-on-light-dim); }
 
 /* ── 30. Btn-pill-outline nav CTA in light mode ── */
@@ -2463,7 +2463,7 @@ p { margin-bottom: 1rem; }
 
 /* ── 31. Category filters on section-pill ── */
 [data-theme="light"] .section-pill .category-filters-v2 .pill-filter { background: #fff; border-color: #C8D5C8; color: var(--text-on-light-dim); }
-[data-theme="light"] .section-pill .category-filters-v2 .pill-filter.active { background: var(--emerald-brand); color: #fff; border-color: var(--emerald-brand); }
+[data-theme="light"] .section-pill .category-filters-v2 .pill-filter.active { background: var(--emerald-brand); color: #fff !important; border-color: var(--emerald-brand); }
 
 /* ── 32. About page CTA newsletter-band link button ── */
 [data-theme="light"] .newsletter-band .btn-pill-primary { color: #fff !important; }
@@ -2615,7 +2615,7 @@ p { margin-bottom: 1rem; }
 [data-theme="light"] .section-dark .pill-filter.active {
   background: var(--emerald-brand);
   border-color: var(--emerald-brand);
-  color: #fff;
+  color: #fff !important;
 }
 [data-theme="light"] .section-dark .pill-filter:hover {
   background: #fff;

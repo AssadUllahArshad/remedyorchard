@@ -12,9 +12,9 @@ class CategoryController extends Controller
     {
         $categories = Category::orderBy('name')->get();
 
-        $articles = Article::with(['category', 'author'])
+        $articles = Article::with(['category', 'categories', 'author'])
             ->published()
-            ->where('category_id', $category->id)
+            ->whereHas('categories', fn ($q) => $q->where('categories.id', $category->id))
             ->latest('published_at')
             ->get();
 

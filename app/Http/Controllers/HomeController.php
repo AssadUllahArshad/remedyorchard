@@ -12,13 +12,13 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $featuredArticle = Article::with(['category', 'author'])
+        $featuredArticle = Article::with(['category', 'categories', 'author'])
             ->published()
             ->where('featured', true)
             ->latest('published_at')
             ->first();
 
-        $latestArticles = Article::with(['category', 'author'])
+        $latestArticles = Article::with(['category', 'categories', 'author'])
             ->published()
             ->latest('published_at')
             ->take(4)

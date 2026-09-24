@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Author;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class AuthorSeeder extends Seeder
 {
@@ -55,10 +56,14 @@ class AuthorSeeder extends Seeder
         ];
 
         foreach ($authors as $author) {
-            Author::firstOrCreate(
+            $record = Author::firstOrCreate(
                 ['name' => $author['name']],
-                $author
+                $author + ['slug' => Str::slug($author['name'])]
             );
+
+            if (! $record->slug) {
+                $record->update(['slug' => Str::slug($record->name)]);
+            }
         }
     }
 }

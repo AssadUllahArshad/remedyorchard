@@ -92,7 +92,11 @@
             <div class="card-thumb img-ph {{ $article->thumb_class ?? 'img-ph-1' }}"
                  @isset($article->thumbnail_url) style="background-image:url('{{ $article->thumbnail_url }}')" @endisset></div>
             <div class="card-body">
-              <span class="tag-chip">{{ $article->category->name }}</span>
+              <div class="d-flex flex-wrap gap-1 mb-2">
+                @foreach(($article->categories ?? collect([$article->category])) as $articleCategory)
+                  @if($articleCategory)<span class="tag-chip">{{ $articleCategory->name }}</span>@endif
+                @endforeach
+              </div>
               <h3>{{ $article->title }}</h3>
               <p class="excerpt">{{ $article->excerpt }}</p>
               <div class="card-meta"><span>{{ $article->author->name }}</span><span>{{ $article->read_time }}</span></div>

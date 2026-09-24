@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsletterController;
@@ -27,6 +28,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/remedies', [ArticleController::class, 'index'])->name('remedies.index');
 Route::get('/remedies/{article:slug}', [ArticleController::class, 'show'])->name('articles.show');
 Route::get('/category/{category:slug}', [CategoryController::class, 'show'])->name('categories.show');
+Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index');
+Route::get('/doctors/{doctor}', [DoctorController::class, 'show'])->name('doctors.show');
 
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/contact', [PageController::class, 'contact'])->name('contact');
@@ -73,6 +76,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/articles/{article}/edit', [AdminArticleController::class, 'edit'])->name('articles.edit');
     Route::put('/articles/{article}', [AdminArticleController::class, 'update'])->name('articles.update');
     Route::delete('/articles/{article}', [AdminArticleController::class, 'destroy'])->name('articles.destroy');
+
+    Route::get('/doctors', [\App\Http\Controllers\Admin\DoctorController::class, 'index'])->name('doctors.index');
+    Route::get('/doctors/create', [\App\Http\Controllers\Admin\DoctorController::class, 'create'])->name('doctors.create');
+    Route::post('/doctors', [\App\Http\Controllers\Admin\DoctorController::class, 'store'])->name('doctors.store');
+    Route::get('/doctors/{doctor:id}/edit', [\App\Http\Controllers\Admin\DoctorController::class, 'edit'])->name('doctors.edit');
+    Route::put('/doctors/{doctor:id}', [\App\Http\Controllers\Admin\DoctorController::class, 'update'])->name('doctors.update');
+    Route::delete('/doctors/{doctor:id}', [\App\Http\Controllers\Admin\DoctorController::class, 'destroy'])->name('doctors.destroy');
 
     Route::get('/categories', [AdminCategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', [AdminCategoryController::class, 'create'])->name('categories.create');

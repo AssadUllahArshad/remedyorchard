@@ -123,14 +123,24 @@
 
     {{-- Main content --}}
     <div class="col-lg-8">
-      <span class="tag-chip mb-3">{{ $article->category->name }}</span>
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        @foreach(($article->categories ?? collect([$article->category])) as $category)
+          @if($category)
+            <a href="{{ route('categories.show', $category->slug) }}" class="tag-chip text-decoration-none">{{ $category->name }}</a>
+          @endif
+        @endforeach
+      </div>
 
       <h1 class="mb-3" style="font-size:clamp(1.6rem, 6vw, 2.2rem); line-height:1.15;">{{ $article->title }}</h1>
 
       <div class="author-byline-v2">
         <span class="author-avatar-v2">{{ $article->author->initials }}</span>
         <div>
-          <strong>{{ $article->author->name }}</strong>
+          @if($article->author)
+            <a href="{{ route('doctors.show', $article->author->slug ?: $article->author->id) }}" class="text-decoration-none"><strong>{{ $article->author->name }}</strong></a>
+          @else
+            <strong>Healthy Habits Hub</strong>
+          @endif
           {{ $article->author->role ?? '' }}
           @if($article->author->role) &nbsp;&bull;&nbsp; @endif
           {{ $article->published_at->format('F j, Y') }}

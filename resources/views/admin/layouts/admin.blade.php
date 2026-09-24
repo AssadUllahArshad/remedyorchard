@@ -44,6 +44,9 @@
       <a href="{{ route('admin.categories.index') }}" class="{{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
         <i class="bi bi-tags-fill"></i> Categories <span class="badge-count">{{ $categoryCount ?? 6 }}</span>
       </a>
+      <a href="{{ route('admin.doctors.index') }}" class="{{ request()->routeIs('admin.doctors.*') ? 'active' : '' }}">
+        <i class="bi bi-person-badge-fill"></i> Doctors <span class="badge-count">{{ $doctorCount ?? '' }}</span>
+      </a>
 
       <div class="admin-nav-label">Audience</div>
       <a href="{{ route('admin.subscribers.index') }}" class="{{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
@@ -78,7 +81,7 @@
   <div class="admin-main">
     <div class="admin-topbar">
       <div class="d-flex align-items-center gap-3">
-        <button class="sidebar-toggle-btn" onclick="document.getElementById('adminSidebar').classList.toggle('open')">
+        <button class="sidebar-toggle-btn" type="button" aria-label="Open admin navigation" aria-controls="adminSidebar" aria-expanded="false" onclick="toggleAdminSidebar(this)">
           <i class="bi bi-list"></i>
         </button>
         <div>
@@ -125,7 +128,20 @@
 
 </div>
 
+<div class="admin-sidebar-backdrop" data-admin-sidebar-backdrop onclick="toggleAdminSidebar()"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function toggleAdminSidebar(button) {
+    const sidebar = document.getElementById('adminSidebar');
+    const backdrop = document.querySelector('[data-admin-sidebar-backdrop]');
+    const open = !sidebar.classList.contains('open');
+    sidebar.classList.toggle('open', open);
+    backdrop.classList.toggle('visible', open);
+    document.body.classList.toggle('admin-nav-open', open);
+    if (button) button.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+</script>
 @stack('scripts')
 </body>
 </html>

@@ -7,7 +7,11 @@ body.admin-body {
   background: var(--off-white);
   color: var(--text-on-light);
   min-height: 100vh;
+  overflow-x: hidden;
+  padding-top: var(--header-h, 0px);
 }
+
+body.admin-body *, body.admin-body *::before, body.admin-body *::after { box-sizing: border-box; height: auto; }
 
 /* =========================================================
    Layout shell
@@ -28,6 +32,7 @@ body.admin-body {
   position: sticky;
   top: 0;
   height: 100vh;
+  overflow: hidden;
 }
 
 .admin-sidebar-brand {
@@ -36,6 +41,12 @@ body.admin-body {
 }
 
 .admin-sidebar-brand svg { height: 30px; }
+
+.admin-sidebar-brand .brand-link { display: flex; align-items: center; gap: 0.7rem; min-width: 0; }
+.admin-sidebar-brand .brand-logo-icon { width: 38px; height: 38px; object-fit: cover; border-radius: 10px; flex-shrink: 0; }
+.admin-sidebar-brand .brand-logo-text { min-width: 0; line-height: 1; }
+.admin-sidebar-brand .logo-text-main { display: block; color: #fff; font-size: 0.92rem; font-weight: 800; white-space: nowrap; }
+.admin-sidebar-brand .logo-text-sub { display: block; color: var(--emerald-bright); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em; margin-top: 0.28rem; }
 
 .admin-nav {
   flex: 1;
@@ -118,7 +129,12 @@ body.admin-body {
   position: sticky;
   top: 0;
   z-index: 20;
+  min-height: 74px;
+  gap: 1rem;
 }
+
+.admin-topbar > div { min-width: 0; }
+.admin-topbar h1, .admin-topbar p.subtitle { overflow-wrap: anywhere; }
 
 .admin-topbar h1 { font-size: 1.3rem; margin-bottom: 0; color: var(--text-on-light); }
 .admin-topbar p.subtitle { font-size: 0.85rem; color: var(--text-on-light-dim); margin-bottom: 0; }
@@ -134,6 +150,9 @@ body.admin-body {
 
 .admin-content { padding: 1.8rem; flex: 1; }
 
+.admin-content > * { min-width: 0; }
+.admin-sidebar-backdrop { display: none; }
+
 .sidebar-toggle-btn {
   display: none;
   background: var(--emerald-pill);
@@ -146,10 +165,12 @@ body.admin-body {
 }
 
 @media (max-width: 991px) {
-  .admin-sidebar { position: fixed; left: -280px; z-index: 1050; transition: left 0.2s ease; }
+  .admin-sidebar { position: fixed; left: -280px; z-index: 1050; transition: left 0.2s ease; box-shadow: 12px 0 30px rgba(8, 35, 20, 0.2); }
   .admin-sidebar.open { left: 0; }
   .sidebar-toggle-btn { display: flex; }
   .admin-search-box { display: none; }
+  .admin-sidebar-backdrop.visible { display: block; position: fixed; inset: 0; z-index: 1040; background: rgba(8, 24, 15, 0.42); }
+  body.admin-nav-open { overflow: hidden; }
 }
 
 /* =========================================================
@@ -161,6 +182,58 @@ body.admin-body {
   border-radius: var(--radius-card);
   padding: 1.5rem;
 }
+
+.admin-page-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.admin-card-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.doctor-avatar-fallback {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: rgba(40,98,58,0.1);
+  border: 2px solid rgba(40,98,58,0.2);
+  color: var(--emerald-brand);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.admin-doctor-name {
+  color: var(--text-on-light);
+  font-size: 1.05rem;
+  line-height: 1.3;
+  margin-bottom: 0.35rem;
+  overflow-wrap: anywhere;
+}
+
+.admin-doctor-form-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 320px);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.admin-doctor-form-grid .admin-form-section { margin-bottom: 0; }
+.admin-form-submit { width: 100%; justify-content: center; }
+
+.admin-select[multiple] { min-height: 9rem; padding: 0.35rem; }
+.admin-select[multiple] option { padding: 0.45rem 0.55rem; border-radius: 4px; }
 
 .admin-stat-tile {
   background: var(--white);
@@ -200,6 +273,9 @@ body.admin-body {
   border-radius: var(--radius-card);
   overflow: hidden;
 }
+
+.admin-table-wrap { overflow-x: auto; }
+table.admin-table { min-width: 760px; }
 
 table.admin-table { width: 100%; border-collapse: collapse; font-size: 0.89rem; }
 
@@ -347,6 +423,7 @@ table.admin-table tbody tr:hover { background: var(--off-white); }
   border-radius: var(--radius-card);
   padding: 1.6rem;
   margin-bottom: 1.5rem;
+  min-width: 0;
 }
 
 .admin-form-section h3 {
@@ -411,6 +488,7 @@ table.admin-table tbody tr:hover { background: var(--off-white); }
   justify-content: flex-end;
   gap: 0.7rem;
   margin: 0 -1.8rem -1.8rem;
+  z-index: 10;
 }
 
 /* =========================================================
@@ -505,5 +583,26 @@ table.admin-table tbody tr:hover { background: var(--off-white); }
    ========================================================= */
 @media (max-width: 767px) {
   .admin-content { padding: 1.1rem; }
-  .admin-topbar { padding: 0.9rem 1.1rem; }
+  .admin-topbar { padding: 0.9rem 1.1rem; align-items: flex-start; }
+  .admin-topbar h1 { font-size: 1.1rem; }
+  .admin-topbar p.subtitle { font-size: 0.76rem; line-height: 1.35; margin-top: 0.2rem; }
+  .admin-topbar .d-flex { gap: 0.65rem !important; }
+  .admin-form-section { padding: 1.15rem; margin-bottom: 1rem; }
+  .admin-save-bar { margin: 0 -1.1rem -1.1rem; padding: 0.8rem 1.1rem; flex-wrap: wrap; justify-content: stretch; }
+  .admin-save-bar > * { flex: 1 1 auto; text-align: center; justify-content: center; }
+  .admin-pagination { align-items: flex-start; flex-direction: column; gap: 0.75rem; }
+  .admin-page-actions { justify-content: stretch; }
+  .admin-page-actions > * { width: 100%; justify-content: center; }
+  .admin-doctor-form-grid { grid-template-columns: 1fr; gap: 0; }
+  .admin-doctor-form-grid .admin-form-section { margin-bottom: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .admin-sidebar-brand { padding: 1.1rem; }
+  .admin-nav { padding-inline: 0.65rem; }
+  .admin-sidebar-footer { padding: 1rem 1.1rem; }
+  .admin-content { padding: 0.85rem; }
+  .admin-topbar { padding: 0.8rem 0.85rem; }
+  .admin-topbar .subtitle { max-width: 190px; }
+  .admin-filter-pill { padding-inline: 0.7rem; font-size: 0.76rem; }
 }

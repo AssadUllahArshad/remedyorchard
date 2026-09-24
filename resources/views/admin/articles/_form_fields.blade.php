@@ -1,10 +1,14 @@
 @push('styles')
-<link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet">
 <style>
-  .editor-wrap { border: 1px solid var(--admin-border, #d1d5db); border-radius: 8px; overflow: hidden; }
-  .editor-wrap .ql-toolbar { border: none; border-bottom: 1px solid #d1d5db; background: #f9fafb; }
-  .editor-wrap .ql-container { border: none; min-height: 380px; font-size: 0.97rem; }
-  .editor-wrap .ql-editor { min-height: 380px; }
+  .editor-wrap { border: 1px solid #d1d5db; border-radius: 8px; overflow: hidden; background: #fff; }
+  .editor-wrap .tox-tinymce { border: 0 !important; border-radius: 0 !important; }
+  .editor-wrap .tox .tox-edit-area::before { border: 0 !important; }
+  .editor-help { margin-top: 0.5rem; color: var(--text-on-light-dim); font-size: 0.82rem; line-height: 1.5; }
+  .editor-help strong { color: var(--text-on-light); }
+  .category-checklist { display: flex; flex-direction: column; gap: 0.35rem; max-height: 220px; overflow-y: auto; border: 1px solid #e2e8e3; border-radius: 10px; padding: 0.75rem 0.9rem; }
+  .category-checklist label { display: flex; align-items: center; gap: 0.55rem; font-size: 0.9rem; cursor: pointer; margin: 0; }
+  .category-checklist input { accent-color: var(--emerald-brand); width: 1rem; height: 1rem; cursor: pointer; }
+  @media (max-width: 767px) { .editor-wrap .tox-tinymce { min-height: 500px; } }
 </style>
 @endpush
 
@@ -15,9 +19,8 @@
     $authors    -> Author::all() (or User::role('editor')->get()) for the author <select>.
 
     Form posts to admin.articles.store (create) or admin.articles.update (edit) — see action below.
-    The hidden #body-input textarea receives Quill's HTML output on submit via the script at
-    the bottom of this file; that's the field your controller should validate + sanitize + save
-    as $article->body.
+    The article-body textarea is enhanced by TinyMCE and remains the field your controller
+    validates, sanitizes, and saves as $article->body.
 --}}
 
 @php
@@ -33,7 +36,7 @@
     ];
     $isEdit = isset($article);
     $article = $article ?? (object)[
-        'title' => '', 'excerpt' => '', 'body' => '', 'category_id' => null, 'author_id' => null,
+        'title' => '', 'excerpt' => '', 'body' => '', 'category_id' => null, 'category_ids' => [], 'author_id' => null,
         'status' => 'draft', 'read_time' => '', 'meta_title' => '', 'meta_description' => '',
     ];
 @endphp
@@ -60,34 +63,10 @@
 
         <label class="admin-form-label">Body</label>
 
-        {{-- Editor toolbar + HTML toggle --}}
         <div class="editor-wrap">
-          {{-- Quill visual editor --}}
-          <div id="quill-editor">{!! old('body', $article->body) !!}</div>
-
-          {{-- Raw HTML source editor (hidden by default) --}}
-          <textarea id="html-source"
-                    style="display:none; width:100%; min-height:420px; font-family:'Courier New',monospace;
-                           font-size:0.82rem; line-height:1.6; padding:1rem; border:none; resize:vertical;
-                           background:#0d1f17; color:#a7f3b8; border-radius:0 0 8px 8px;"
-                    spellcheck="false"
-                    placeholder="Paste or write raw HTML here..."></textarea>
-
-          {{-- Toggle button --}}
-          <div style="display:flex; justify-content:flex-end; padding:6px 10px;
-                      background:#1a3d25; border-radius:0 0 8px 8px; border-top:1px solid #2a5c3a;">
-            <button type="button" id="htmlToggleBtn"
-                    style="font-size:0.75rem; font-weight:600; color:#a7f3b8; background:none;
-                           border:1px solid #3DAA62; border-radius:5px; padding:4px 12px; cursor:pointer;"
-                    title="Toggle between visual editor and raw HTML">
-              &lt;/&gt; HTML Source
-            </button>
-          </div>
+          <textarea name="body" id="article-body" rows="24">{{ old('body', $article->body) }}</textarea>
         </div>
-
-        {{-- Hidden field that is actually submitted --}}
-        <textarea name="body" id="body-input" style="display:none;"></textarea>
-        <p class="admin-form-hint mt-2">Use the toolbar to write and format content. Click <strong>&lt;/&gt; HTML Source</strong> to paste or edit raw HTML directly.</p>
+        <p class="editor-help"><strong>Tip:</strong> Use the <strong>Table</strong> button to create tables, or <strong>Code</strong> to edit HTML directly. Images, links, headings, tables, and formatting are preserved.</p>
       </div>
 
       <div class="admin-form-section">
@@ -140,13 +119,14 @@
       <div class="admin-form-section">
         <h3>Organize</h3>
 
-        <label class="admin-form-label">Category</label>
-        <select name="category_id" class="admin-select mb-3" required>
-          <option value="" disabled selected>Select a category</option>
+        <label class="admin-form-label">Categories</label>
+        @php($selectedCategoryIds = old('category_ids', isset($article->categories) ? $article->categories->pluck('id')->all() : array_filter([$article->category_id])))
+        <div class="category-checklist mb-1">
           @foreach($categories as $cat)
-          <option value="{{ $cat->id }}" @selected(old('category_id', $article->category_id) == $cat->id)>{{ $cat->name }}</option>
+          <label><input type="checkbox" name="category_ids[]" value="{{ $cat->id }}" @checked(in_array($cat->id, $selectedCategoryIds))> {{ $cat->name }}</label>
           @endforeach
-        </select>
+        </div>
+        <p class="admin-form-hint">Select one or more. The first checked category is used as the primary category.</p>
 
         <label class="admin-form-label">Author</label>
         <select name="author_id" class="admin-select mb-3" required>
@@ -180,103 +160,36 @@
 </form>
 
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script src="https://cdn.tiny.cloud/1/{{ config('services.tinymce.key') ?: 'no-api-key' }}/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-  // ── Quill editor ──────────────────────────────────────────────
-  const quill = new Quill('#quill-editor', {
-    theme: 'snow',
-    placeholder: 'Start writing your article...',
-    modules: {
-      toolbar: {
-        container: [
-          [{ header: [2, 3, 4, false] }],
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ color: [] }, { background: [] }],
-          [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-          [{ align: [] }],
-          ['blockquote', 'code-block'],
-          ['link', 'image', 'video'],
-          ['clean']
-        ],
-        handlers: {
-          image: function () {
-            const input = document.createElement('input');
-            input.setAttribute('type', 'file');
-            input.setAttribute('accept', 'image/jpeg,image/png,image/webp,image/gif');
-            input.click();
-            input.addEventListener('change', async function () {
-              const file = input.files[0];
-              if (!file) return;
-              const btn = document.querySelector('.ql-image');
-              if (btn) btn.disabled = true;
-              try {
-                const fd = new FormData();
-                fd.append('image', file);
-                fd.append('_token', document.querySelector('meta[name="csrf-token"]').content);
-                const res  = await fetch('{{ route('admin.images.upload') }}', { method: 'POST', body: fd });
-                if (!res.ok) throw new Error('Upload failed');
-                const data = await res.json();
-                const range = quill.getSelection(true);
-                quill.insertEmbed(range.index, 'image', data.url, 'user');
-                quill.setSelection(range.index + 1, 0, 'silent');
-              } catch (e) {
-                alert('Image upload failed. Check the file size (max 5 MB) and try again.');
-              } finally {
-                if (btn) btn.disabled = false;
-              }
-            });
-          }
-        }
-      }
-    }
-  });
-
-  // ── HTML source toggle ────────────────────────────────────────
-  const htmlSource  = document.getElementById('html-source');
-  const toggleBtn   = document.getElementById('htmlToggleBtn');
-  const quillWrap   = document.querySelector('.ql-container');
-  const quillToolbar= document.querySelector('.ql-toolbar');
-  let   inHtmlMode  = false;
-
-  toggleBtn.addEventListener('click', function () {
-    inHtmlMode = !inHtmlMode;
-    if (inHtmlMode) {
-      // Visual → HTML: copy Quill's HTML into textarea
-      htmlSource.value = quill.root.innerHTML;
-      htmlSource.style.display = 'block';
-      quillWrap.style.display  = 'none';
-      quillToolbar.style.display = 'none';
-      toggleBtn.textContent = '✎ Visual Editor';
-      toggleBtn.style.color = '#fff';
-    } else {
-      // HTML → Visual: parse textarea HTML back into Quill
-      quill.root.innerHTML = htmlSource.value;
-      htmlSource.style.display  = 'none';
-      quillWrap.style.display   = 'block';
-      quillToolbar.style.display = 'block';
-      toggleBtn.textContent = '</> HTML Source';
-      toggleBtn.style.color = '#a7f3b8';
-    }
-  });
-
-  // Helper: get current body HTML regardless of which mode is active
-  function getBodyHtml() {
-    return inHtmlMode ? htmlSource.value : quill.root.innerHTML;
-  }
-
-  // Sync into the hidden textarea on submit
   const articleForm = document.getElementById('article-form');
-  articleForm.addEventListener('submit', function () {
-    document.querySelector('#body-input').value = getBodyHtml();
+  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+  const uploadUrl = @json(route('admin.images.upload'));
+
+  tinymce.init({
+    selector: '#article-body', height: 620, menubar: 'file edit view insert format tools table', branding: false, promotion: false,
+    plugins: 'advlist autolink lists link image media charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime table wordcount',
+    toolbar: 'undo redo | styles | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | table | blockquote code | removeformat | fullscreen',
+    style_formats: [{ title: 'Paragraph', format: 'p' }, { title: 'Heading 2', format: 'h2' }, { title: 'Heading 3', format: 'h3' }, { title: 'Heading 4', format: 'h4' }, { title: 'Blockquote', format: 'blockquote' }, { title: 'Preformatted', format: 'pre' }],
+    table_default_attributes: { border: '1' }, table_default_styles: { 'border-collapse': 'collapse', width: '100%' }, table_sizing_mode: 'responsive',
+    table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | tablecellprops tablerowprops',
+    content_style: 'body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:16px;line-height:1.7;color:#1f2937;padding:16px;margin:0} h2{font-size:1.65rem;margin:1.8rem 0 .8rem} h3{font-size:1.35rem;margin:1.5rem 0 .7rem} p{margin:0 0 1rem} img{max-width:100%;height:auto} table{width:100%;border-collapse:collapse;margin:1.5rem 0} th,td{border:1px solid #cbd5e1;padding:10px 12px;vertical-align:top} th{background:#f1f5f9;font-weight:700} blockquote{border-left:4px solid #28623A;margin:1.5rem 0;padding:.75rem 1rem;background:#f8faf9} pre{background:#0f172a;color:#e2e8f0;padding:1rem;border-radius:6px;overflow-x:auto} a{color:#2563eb}',
+    automatic_uploads: true, images_reuse_filename: false, image_title: true, image_description: true, image_dimensions: true, image_caption: true, image_advtab: true,
+    images_upload_handler: (blobInfo, progress) => new Promise((resolve, reject) => {
+      const data = new FormData(); data.append('image', blobInfo.blob(), blobInfo.filename()); if (csrfToken) data.append('_token', csrfToken);
+      const xhr = new XMLHttpRequest(); xhr.open('POST', uploadUrl); if (csrfToken) xhr.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+      xhr.upload.onprogress = event => event.lengthComputable && progress(event.loaded / event.total * 100);
+      xhr.onload = () => { if (xhr.status < 200 || xhr.status >= 300) return reject('Image upload failed.'); try { const json = JSON.parse(xhr.responseText); const url = json.location || json.url; url ? resolve(url) : reject('Image URL missing.'); } catch (error) { reject('Invalid image response.'); } };
+      xhr.onerror = () => reject('Image upload failed.'); xhr.send(data);
+    }),
+    link_target_list: [{ title: 'None', value: '' }, { title: 'New window', value: '_blank' }], paste_data_images: false, convert_urls: false,
+    extended_valid_elements: 'figure[class|style],figcaption[class|style],img[src|alt|title|width|height|loading|class|style],a[href|title|target|rel|class|style],table[class|style|width|border|cellpadding|cellspacing],thead[class|style],tbody[class|style],tfoot[class|style],tr[class|style],th[class|style|scope|colspan|rowspan],td[class|style|colspan|rowspan]',
+    setup: editor => { window.articleTinyMCE = editor; editor.on('change input undo redo SetContent', () => editor.save()); }
   });
 
-  // ── Save as Draft / Publish buttons ───────────────────────────
-  function setStatusAndSubmit(status) {
-    const select = articleForm.querySelector('select[name="status"]');
-    if (select) select.value = status;
-    document.querySelector('#body-input').value = getBodyHtml();
-    articleForm.submit();
-  }
+  async function syncEditorBeforeSubmit() { const editor = window.articleTinyMCE || tinymce.get('article-body'); if (!editor) return; await editor.uploadImages(); editor.save(); }
+  articleForm.addEventListener('submit', async event => { if (articleForm.dataset.editorReady === '1') { delete articleForm.dataset.editorReady; return; } event.preventDefault(); try { await syncEditorBeforeSubmit(); articleForm.dataset.editorReady = '1'; articleForm.submit(); } catch (error) { alert('One or more article images could not be uploaded. Please try again.'); } });
+  window.setStatusAndSubmit = async status => { articleForm.querySelector('select[name="status"]').value = status; try { await syncEditorBeforeSubmit(); articleForm.dataset.editorReady = '1'; articleForm.submit(); } catch (error) { alert('The article could not be prepared for saving. Please check the editor.'); } };
 
   // ── Image upload zone ─────────────────────────────────────────
   const input = document.getElementById('thumbnailInput');

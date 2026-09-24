@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\ContactMessage;
+use App\Models\Author;
 use App\Models\Subscriber;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                 'articleCount' => Article::count(),
                 'categoryCount' => Category::count(),
+                'doctorCount' => Author::count(),
                 'subscriberCount' => Subscriber::where('active', true)->count(),
                 'unreadMessageCount' => ContactMessage::where('read', false)->count(),
                 'authUserInitials' => $initials,
